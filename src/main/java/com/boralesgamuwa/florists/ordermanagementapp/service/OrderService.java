@@ -2,7 +2,6 @@ package com.boralesgamuwa.florists.ordermanagementapp.service;
 
 import com.boralesgamuwa.florists.ordermanagementapp.model.Order;
 import com.boralesgamuwa.florists.ordermanagementapp.model.Orderitem;
-import com.boralesgamuwa.florists.ordermanagementapp.model.Packageitem;
 
 import java.util.List;
 
@@ -21,5 +20,5 @@ public interface OrderService {
     List<Order> listAllCompletedOrders();
     List<Order> listAllInCompletedOrders();
     List<Order> listAllCancelledOrders();
-    List<Packageitem> listOrderItemByOrderId(int orderId);
+    List<Orderitem> listOrderItemByOrderId(int orderId);
 }

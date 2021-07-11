@@ -14,7 +14,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String orderNo; /** order id created by system */
-    private int manualOrderNo;
+    private String manualOrderNo;
     private String orderDate; /** yyyy-MM-dd */
     private String title;
     private String name;

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.Package;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +34,10 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderitemRepository orderitemRepository;
 
+    /**
+     * Access: Assistant
+     * This function enables to place an order
+     * */
     @Override
     public boolean placeOrder(Order order, Package aPackage, List<Orderitem> orderitemList, double advance, double balance) {
         try{
@@ -106,6 +111,10 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    /**
+     * Access: Assistant
+     * This function enables to cancel an order
+     * */
     @Override
     public boolean cancelOrder(int orderId) {
         try{
@@ -121,6 +130,10 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    /**
+     * Access: Assistant
+     * This function enables to pay the balance amount
+     * */
     @Override
     public boolean payBalance(int orderId, double amount) {
         try{
@@ -164,6 +177,10 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    /**
+     * Access: Assistant
+     * This function enables to mark the order as completed
+     * */
     @Override
     public boolean completeOrder(int orderId) {
         try{
@@ -192,53 +209,153 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    /**
+     * Access: All
+     * This function enables to list all orders
+     * */
     @Override
     public List<Order> listAllOrders() {
-        return null;
+        try{
+            return (List<Order>) orderRepository.findAll();
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new ArrayList<>();
+        }
     }
 
+    /**
+     * Access: All
+     * This function enables to get order by order id
+     * */
     @Override
     public Order getOrderById(int orderId) {
-        return null;
+        try{
+            return orderRepository.findById(orderId).get();
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new Order();
+        }
     }
 
+    /**
+     * Access: All
+     * This function enables to get order by order id created from system
+     * */
     @Override
     public Order getOrderByOrderId(String orderId) {
-        return null;
+        try{
+            return orderRepository.findByOrderNo(orderId);
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new Order();
+        }
     }
 
+    /**
+     * Access: All
+     * This function enables to get order by manual order id
+     * */
     @Override
     public Order getOrderByManualOrderId(String orderId) {
-        return null;
+        try{
+            return orderRepository.findByManualOrderNo(orderId);
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new Order();
+        }
     }
 
+    /**
+     * Access: All
+     * This function enables to get fully paid orders
+     * */
     @Override
     public List<Order> listAllPaidOrders() {
-        return null;
+        try{
+            return orderRepository.listAllPaidOrders();
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new ArrayList<>();
+        }
     }
 
+    /**
+     * Access: All
+     * This function enables to get un paid orders
+     * */
     @Override
     public List<Order> listAllUnPaidOrders() {
-        return null;
+        try{
+            return orderRepository.listAllUnPaidOrders();
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new ArrayList<>();
+        }
     }
 
+    /**
+     * Access: All
+     * This function enables to get completed orders
+     * */
     @Override
     public List<Order> listAllCompletedOrders() {
-        return null;
+        try{
+            return orderRepository.listAllCompletedOrders();
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new ArrayList<>();
+        }
     }
 
+    /**
+     * Access: All
+     * This function enables to get in-completed orders
+     * */
     @Override
     public List<Order> listAllInCompletedOrders() {
-        return null;
+        try{
+            return orderRepository.listAllInCompletedOrders();
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new ArrayList<>();
+        }
     }
 
+    /**
+     * Access: All
+     * This function enables to get cancelled orders
+     * */
     @Override
     public List<Order> listAllCancelledOrders() {
-        return null;
+        try{
+            return orderRepository.listAllCancelledOrders();
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new ArrayList<>();
+        }
     }
 
+    /**
+     * Access: All
+     * This function enables to get Orderitem list by order id
+     * */
     @Override
-    public List<Packageitem> listOrderItemByOrderId(int orderId) {
-        return null;
+    public List<Orderitem> listOrderItemByOrderId(int orderId) {
+        try{
+            return orderitemRepository.findByOrderId(orderId);
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new ArrayList<>();
+        }
     }
 }
