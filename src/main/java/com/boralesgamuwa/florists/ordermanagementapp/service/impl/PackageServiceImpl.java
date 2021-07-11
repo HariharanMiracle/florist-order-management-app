@@ -22,6 +22,7 @@ public class PackageServiceImpl implements PackageService {
      * Access: ADMIN
      * This function enables to create a package initially
      * initially package amount is 0
+     * tested
      * */
     @Override
     public boolean savePackage(Package aPackage) {
@@ -67,6 +68,7 @@ public class PackageServiceImpl implements PackageService {
     /**
      * Access: All
      * This function enables to view a package by its id
+     * tested
      * */
     @Override
     public Package getPackageById(int id) {
@@ -86,6 +88,7 @@ public class PackageServiceImpl implements PackageService {
     /**
      * Access: All
      * This function enables to view all the packages
+     * tested
      * */
     @Override
     public List<Package> listAllPackages() {
@@ -104,6 +107,7 @@ public class PackageServiceImpl implements PackageService {
     /**
      * Access: All
      * This function enables to view package by its name
+     * tested
      * */
     @Override
     public Package getPackagesByName(String name) {
@@ -122,11 +126,12 @@ public class PackageServiceImpl implements PackageService {
     /**
      * Access: All
      * This function enables to view packages by its name [USING SQL LIKE COMMAND]
+     * tested
      * */
     @Override
     public List<Package> findByLikeName(String name) {
         try {
-            List<Package> packageList = packageRepository.findByLikeName(name);
+            List<Package> packageList = packageRepository.findByNameContaining(name);
             if(packageList == null || packageList.size() == 0)
                 throw new Exception("No packages exist");
             return packageList;

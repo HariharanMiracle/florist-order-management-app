@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService {
     /**
      * Access: ADMIN
      * Allow user creation only
+     * tested
      * */
     @Override
     public boolean saveUser(User user) {

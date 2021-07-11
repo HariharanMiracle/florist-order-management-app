@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.boralesgamuwa.florists.ordermanagementapp.util.Constant.ERROR_LOG;
 
@@ -22,6 +24,7 @@ public class PackageitemServiceImpl implements PackageitemService {
     /**
      * Access: ADMIN
      * This function enables to create a package item
+     * tested
      * */
     @Override
     public boolean saveItem(Packageitem packageitem) {
@@ -65,6 +68,7 @@ public class PackageitemServiceImpl implements PackageitemService {
     /**
      * Access: ALL
      * This function enables to find a package item by its name
+     * tested
      * */
     @Override
     public Packageitem findByItemname(String itemname) {
@@ -83,6 +87,7 @@ public class PackageitemServiceImpl implements PackageitemService {
     /**
      * Access: ALL
      * This function enables to find packages by package id
+     * tested
      * */
     @Override
     public List<Packageitem> findPackageItemListByPackageId(String packageId) {
@@ -98,24 +103,30 @@ public class PackageitemServiceImpl implements PackageitemService {
     /**
      * Access: ALL
      * This function enables to find packages not in the passed package
+     * tested
      * */
     @Override
     public List<Packageitem> findPackageItemListNotInPackage(String packageId) {
         try{
             List<Packageitem> packageitemList = packageitemRepository.findPackageItemListByPackageId(packageId);
             List<Packageitem> allItems = (List<Packageitem>) packageitemRepository.findAll();
+            List<Packageitem> list = new ArrayList<>();
 
             if(packageitemList == null || packageitemList.size() == 0)
                 return allItems;
 
-            for(Packageitem itm : packageitemList){
-                for(Packageitem allItmObj : allItems){
-                    if(itm.getId() == allItmObj.getId())
-                        allItems.remove(allItmObj);
+            for(Packageitem obj : allItems){
+                boolean status = false;
+                for(Packageitem obj2 : packageitemList){
+                    if(obj.getId() == obj2.getId())
+                        status = true;
                 }
+
+                if(status == false)
+                    list.add(obj);
             }
 
-            return allItems;
+            return list;
         }
         catch (Exception e){
             log.error(ERROR_LOG, e);
