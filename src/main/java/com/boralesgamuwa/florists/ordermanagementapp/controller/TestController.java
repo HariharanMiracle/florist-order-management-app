@@ -1,9 +1,9 @@
 package com.boralesgamuwa.florists.ordermanagementapp.controller;
 
 import com.boralesgamuwa.florists.ordermanagementapp.config.AES;
+import com.boralesgamuwa.florists.ordermanagementapp.model.*;
 import com.boralesgamuwa.florists.ordermanagementapp.model.Package;
-import com.boralesgamuwa.florists.ordermanagementapp.model.Packageitem;
-import com.boralesgamuwa.florists.ordermanagementapp.model.User;
+import com.boralesgamuwa.florists.ordermanagementapp.service.OrderService;
 import com.boralesgamuwa.florists.ordermanagementapp.service.PackageService;
 import com.boralesgamuwa.florists.ordermanagementapp.service.PackageitemService;
 import com.boralesgamuwa.florists.ordermanagementapp.service.UserService;
@@ -36,6 +36,9 @@ public class TestController {
 
     @Autowired
     PackageService packageService;
+
+    @Autowired
+    OrderService orderService;
 
     /**
      * This is a sample endpoint
@@ -210,6 +213,106 @@ public class TestController {
         catch (Exception e){
             log.error(ERROR_LOG, e);
             return new ArrayList<>();
+        }
+    }
+
+    /**
+     * This endpoint enables to find package by its id
+     * tested
+     * */
+    @GetMapping("findItemById/{id}")
+    public Packageitem findItemById(@PathVariable int id){
+        try{
+            return packageitemService.findItemById(id);
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new Packageitem();
+        }
+    }
+
+    /**
+     * This function enables to list all orders
+     * tested
+     * */
+    @GetMapping("listAllOrders")
+    public List<Order> listAllOrders(){
+        try{
+            return orderService.listAllOrders();
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * This function enables to get order by order id
+     * tested
+     * */
+    @GetMapping("getOrderById/{id}")
+    public Order getOrderById(@PathVariable int id){
+        try{
+            return orderService.getOrderById(id);
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new Order();
+        }
+    }
+
+    /**
+     * This endpoint enables to get Orderitem list by order id
+     * tested
+     * */
+    @GetMapping("listOrderItemByOrderId/{id}")
+    public List<Orderitem> listOrderItemByOrderId(@PathVariable int id){
+        try{
+            return orderService.listOrderItemByOrderId(id);
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Access: All
+     * This endpoint enables to get order by order id created from system
+     * tested
+     * */
+    @GetMapping("getOrderByOrderId/{id}")
+    public Order getOrderByOrderId(@PathVariable String id){
+        try{
+            Order order = orderService.getOrderByOrderId(id);
+            if(order != null)
+                return order;
+            else
+                return new Order();
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new Order();
+        }
+    }
+
+    /**
+     * Access: All
+     * This endpoint enables to get order by order id created from system
+     * tested
+     * */
+    @GetMapping("getOrderByManualOrderId/{id}")
+    public Order getOrderByManualOrderId(@PathVariable String id){
+        try{
+            Order order = orderService.getOrderByManualOrderId(id);
+            if(order != null)
+                return order;
+            else
+                return new Order();
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new Order();
         }
     }
 }

@@ -212,6 +212,7 @@ public class OrderServiceImpl implements OrderService {
     /**
      * Access: All
      * This function enables to list all orders
+     * tested
      * */
     @Override
     public List<Order> listAllOrders() {
@@ -227,6 +228,7 @@ public class OrderServiceImpl implements OrderService {
     /**
      * Access: All
      * This function enables to get order by order id
+     * tested
      * */
     @Override
     public Order getOrderById(int orderId) {
@@ -242,6 +244,7 @@ public class OrderServiceImpl implements OrderService {
     /**
      * Access: All
      * This function enables to get order by order id created from system
+     * tested
      * */
     @Override
     public Order getOrderByOrderId(String orderId) {
@@ -257,6 +260,7 @@ public class OrderServiceImpl implements OrderService {
     /**
      * Access: All
      * This function enables to get order by manual order id
+     * tested
      * */
     @Override
     public Order getOrderByManualOrderId(String orderId) {
@@ -347,6 +351,7 @@ public class OrderServiceImpl implements OrderService {
     /**
      * Access: All
      * This function enables to get Orderitem list by order id
+     * tested
      * */
     @Override
     public List<Orderitem> listOrderItemByOrderId(int orderId) {
