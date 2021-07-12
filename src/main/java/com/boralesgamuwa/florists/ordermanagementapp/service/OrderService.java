@@ -10,7 +10,6 @@ public interface OrderService {
     boolean cancelOrder(int orderId);
     boolean payBalance(int orderId, double amount);
     boolean completeOrder(int orderId);
-
     List<Order> listAllOrders();
     Order getOrderById(int orderId);
     Order getOrderByOrderId(String orderId);

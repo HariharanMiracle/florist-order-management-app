@@ -13,18 +13,18 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
     Order findByOrderNo(String orderNo);
     Order findByManualOrderNo(String manualOrderNo);
 
-    @Query(value="SELECT * FROM `order` WHERE bill_status = 'PAID'", nativeQuery = true)
+    @Query(value="SELECT * FROM `orders` WHERE bill_status = 'PAID'", nativeQuery = true)
     List<Order> listAllPaidOrders();
 
-    @Query(value="SELECT * FROM `order` WHERE bill_status = 'UN_PAID'", nativeQuery = true)
+    @Query(value="SELECT * FROM `orders` WHERE bill_status = 'UN_PAID'", nativeQuery = true)
     List<Order> listAllUnPaidOrders();
 
-    @Query(value="SELECT * FROM `order` WHERE order_status = 'COMPLETED'", nativeQuery = true)
+    @Query(value="SELECT * FROM `orders` WHERE order_status = 'COMPLETED'", nativeQuery = true)
     List<Order> listAllCompletedOrders();
 
-    @Query(value="SELECT * FROM `order` WHERE order_status = 'PROCESSING'", nativeQuery = true)
+    @Query(value="SELECT * FROM `orders` WHERE order_status = 'PROCESSING'", nativeQuery = true)
     List<Order> listAllInCompletedOrders();
 
-    @Query(value="SELECT * FROM `order` WHERE order_status = 'CANCELLED'", nativeQuery = true)
+    @Query(value="SELECT * FROM `orders` WHERE order_status = 'CANCELLED'", nativeQuery = true)
     List<Order> listAllCancelledOrders();
 }
