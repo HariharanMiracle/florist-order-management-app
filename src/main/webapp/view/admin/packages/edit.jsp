@@ -1,8 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ page import="org.springframework.web.servlet.support.ServletUriComponentsBuilder"%>
+<%@ page import="com.boralesgamuwa.florists.ordermanagementapp.model.Package"%>
 <html>
 <head>
-    <title>Admin Home</title>
+    <title>Edit Package</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -11,6 +12,7 @@
 <body class="bg-light">
     <%
         final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        Package pkg = (Package) request.getAttribute("pkg");
     %>
     <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 0px !important; background-color: #ded5d5 !important;">
@@ -20,11 +22,11 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-              <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-              </li>
               <li class="nav-item">
-                <a class="nav-link" href=<%=baseUrl + "/package/list"%>>Packages</a>
+                <a class="nav-link" href="#">Home</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href=<%=baseUrl + "/package/list"%>>Packages <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href=<%=baseUrl + "/item/list"%>>Items</a>
@@ -48,37 +50,25 @@
           </div>
         </nav>
 
-        <div class="p-5">
-            <h1>Statistics</h1>
-            <div class="row">
-                <div class="col-md-3 p-5">
-                    <h3>Profit</h3>
-                    <h6>Current month</h6>
-                    <h6>Total</h6>
+        <div class="p-3">
+            <h5>Edit Package</h5>
+            <hr/>
+            <br/>
+            <form method="post" action=<%=baseUrl + "/package/edit" %>>
+                <div class="form-group">
+                    <label for="inputName">Package Id</label>
+                    <input type="text" class="form-control" value=<%= pkg.getId() %> id="id" name="id" placeholder="Enter package id" readonly>
                 </div>
-                <div class="col-md-3 p-5">
-                    <h3>Completed Orders</h3>
-                    <h6>Current month</h6>
-                    <h6>Total</h6>
+                <div class="form-group">
+                    <label for="inputName">Package Name</label>
+                    <input type="text" class="form-control" value=<%= pkg.getName() %> id="name" name="name" placeholder="Enter package name" required>
                 </div>
-                <div class="col-md-3 p-5">
-                    <h3>Cancelled Orders</h3>
-                    <h6>Current month</h6>
-                    <h6>Total</h6>
+                <div class="form-group">
+                    <label for="inputName">Package Name</label>
+                    <input type="text" class="form-control" value=<%= pkg.getAmount() %> id="amount" name="amount" placeholder="Enter package amount" readonly>
                 </div>
-                <div class="col-md-3 p-5">
-                    <h3>Unpaid Orders</h3>
-                    <h6>Current month</h6>
-                    <h6>Total</h6>
-                </div>
-
-                <div class="col-md-6 p-5">
-                    <h3>Graph on orders</h3>
-                </div>
-                <div class="col-md-6 p-5">
-                    <h3>Graph on monetary</h3>
-                </div>
-            </div>
+                <button type="submit" class="btn btn-secondary">Update</button>
+            </form>
         </div>
     </div>
 </body>

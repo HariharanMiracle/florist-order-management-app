@@ -29,7 +29,7 @@
                 <form method="post" action=<%=baseUrl + "/login/admin" %>>
                   <div class="form-group">
                     <label for="inputUsername">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="Enter username" required>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
                   </div>
                   <div class="form-group">
                     <label for="inputPassword">Password</label>
