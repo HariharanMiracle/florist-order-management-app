@@ -61,7 +61,7 @@
                     <form method="post" action=<%=baseUrl + "/package/search" %>>
                         <div class="row">
                             <div><input type="text" class="form-control" id="name" name="name" placeholder="Search..."></div>
-                            <iv><button type="submit" class="btn btn-info">Search</button></div>
+                            <div><button type="submit" class="btn btn-info">Search</button></div>
                         </div>
                     </form>
                 </div>
@@ -74,7 +74,7 @@
                 if(packageList.size() == 0){
                     %>
                         <div class="row p-5">
-                            <div class="col-md-12 bg-warning text-center p-3" style="border-radius: 10px"> <h5 class="text-danger">No record exists</h5> </div>
+                            <div class="col-md-12 bg-success text-center p-3" style="border-radius: 10px"> <h5 class="text-danger">No record exists</h5> </div>
                         </div>
                     <%
                 }
@@ -101,7 +101,7 @@
                                           <td><%= pkg.getName() %></td>
                                           <td><%= pkg.getAmount() %></td>
                                           <td>
-                                            <a href=<%= baseUrl + "/package/edit/" + pkg.getId() %> type="button" class="btn btn-info">Edit</a>
+                                            <a href=<%= baseUrl + "/package/edit/" + pkg.getId() %> type="button" class="btn btn-warning">Edit Package</a>
                                           </td>
                                         </tr>
                                         <%
