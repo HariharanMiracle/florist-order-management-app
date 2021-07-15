@@ -9,6 +9,5 @@ import java.util.List;
 @Repository
 public interface PackageRepository extends CrudRepository<Package, Integer> {
     List<Package> findByName(String name);
-
     List<Package> findByNameContaining(String name);
 }

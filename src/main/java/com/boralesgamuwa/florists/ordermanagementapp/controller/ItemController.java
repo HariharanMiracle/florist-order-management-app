@@ -1,23 +1,34 @@
 package com.boralesgamuwa.florists.ordermanagementapp.controller;
 
+import com.boralesgamuwa.florists.ordermanagementapp.model.Packageitem;
+import com.boralesgamuwa.florists.ordermanagementapp.service.PackageitemService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.util.List;
 
 import static com.boralesgamuwa.florists.ordermanagementapp.util.Constant.ERROR_LOG;
 
 @RestController
 @Slf4j
-@RequestMapping("login")
-public class LoginController {
+@RequestMapping("item")
+public class ItemController {
 
-    @GetMapping("admin")
-    public ModelAndView adminLoginForm(){
+    @Autowired
+    PackageitemService packageitemService;
+
+    @GetMapping("list")
+    public ModelAndView list(){
         ModelAndView modelAndView = new ModelAndView();
 
         try{
-            modelAndView.setViewName("admin/login");
+            List<Packageitem> itemList = packageitemService.listAllItems();
+
+            modelAndView.setViewName("admin/items/listview");
+            modelAndView.addObject("itemList", itemList);
         }
         catch (Exception e){
             modelAndView.setViewName("error/page");
@@ -27,56 +38,54 @@ public class LoginController {
         return modelAndView;
     }
 
-    @PostMapping("admin")
-    public ModelAndView adminLogin(@RequestParam("username") String username, @RequestParam("password") String password){
+    @PostMapping("search")
+    public ModelAndView search(@RequestParam("name") String name){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            List<Packageitem> itemList = packageitemService.findByItemnameContaining(name);
+
+            modelAndView.setViewName("admin/items/listview");
+            modelAndView.addObject("itemList", itemList);
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+        return modelAndView;
+    }
+
+    @GetMapping("add")
+    public ModelAndView addForm(){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            modelAndView.setViewName("admin/items/add");
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+        return modelAndView;
+    }
+
+    @PostMapping("add")
+    public ModelAndView add(@RequestParam("name") String name, @RequestParam("amount") double amount){
         ModelAndView modelAndView = new ModelAndView();
 
         try{
             final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
 
-            log.info("username: {}", username);
-            log.info("password: {}", password);
+            Packageitem item = new Packageitem();
+            item.setId(0);
+            item.setItemname(name);
+            item.setAmount(amount);
 
-            /**
-             * Validation
-             * */
-            return new ModelAndView("redirect:" + baseUrl + "/admin/home");
-        }
-        catch (Exception e){
-            modelAndView.setViewName("error/page");
-            modelAndView.addObject("error", e.getMessage());
-            log.error(ERROR_LOG, e);
-        }
-        return modelAndView;
-    }
+            packageitemService.saveItem(item);
 
-    @GetMapping("assistant")
-    public ModelAndView assistantLoginForm(){
-        ModelAndView modelAndView = new ModelAndView();
-
-        try{
-            modelAndView.setViewName("assistant/login");
-        }
-        catch (Exception e){
-            modelAndView.setViewName("error/page");
-            modelAndView.addObject("error", e.getMessage());
-            log.error(ERROR_LOG, e);
-        }
-        return modelAndView;
-    }
-
-    @PostMapping("assistant")
-    public ModelAndView assistantLogin(@RequestParam("username") String username, @RequestParam("password") String password){
-        ModelAndView modelAndView = new ModelAndView();
-
-        try{
-            log.info("username: {}", username);
-            log.info("password: {}", password);
-
-            /**
-             * Validation
-             * */
-            modelAndView.setViewName("assistant/home");
+            return new ModelAndView("redirect:" + baseUrl + "/item/list");
         }
         catch (Exception e){
             modelAndView.setViewName("error/page");

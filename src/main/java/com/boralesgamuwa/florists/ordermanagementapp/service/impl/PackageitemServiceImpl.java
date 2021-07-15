@@ -1,5 +1,6 @@
 package com.boralesgamuwa.florists.ordermanagementapp.service.impl;
 
+import com.boralesgamuwa.florists.ordermanagementapp.model.Package;
 import com.boralesgamuwa.florists.ordermanagementapp.model.Packageitem;
 import com.boralesgamuwa.florists.ordermanagementapp.repository.PackageitemRepository;
 import com.boralesgamuwa.florists.ordermanagementapp.service.PackageitemService;
@@ -8,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static com.boralesgamuwa.florists.ordermanagementapp.util.Constant.ERROR_LOG;
 
@@ -20,6 +19,25 @@ public class PackageitemServiceImpl implements PackageitemService {
 
     @Autowired
     PackageitemRepository packageitemRepository;
+
+    /**
+     * Access: ADMIN
+     * This function enables to list all package items
+     * tested
+     * */
+    @Override
+    public List<Packageitem> listAllItems() {
+        try {
+            List<Packageitem> itemList = (List<Packageitem>) packageitemRepository.findAll();
+            if(itemList == null || itemList.size() == 0)
+                throw new Exception("No items exist");
+            return itemList;
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new ArrayList<>();
+        }
+    }
 
     /**
      * Access: ADMIN
@@ -86,7 +104,7 @@ public class PackageitemServiceImpl implements PackageitemService {
 
     /**
      * Access: ALL
-     * This function enables to find packages by package id
+     * This function enables to find package items by package id
      * tested
      * */
     @Override
@@ -102,7 +120,7 @@ public class PackageitemServiceImpl implements PackageitemService {
 
     /**
      * Access: ALL
-     * This function enables to find packages not in the passed package
+     * This function enables to find package items not in the passed package
      * tested
      * */
     @Override
@@ -136,7 +154,7 @@ public class PackageitemServiceImpl implements PackageitemService {
 
     /**
      * Access: ALL
-     * This function enables to find package by its id
+     * This function enables to find package items by its id
      * tested
      * */
     @Override
@@ -151,6 +169,25 @@ public class PackageitemServiceImpl implements PackageitemService {
         catch (Exception e){
             log.error(ERROR_LOG, e);
             return new Packageitem();
+        }
+    }
+
+    /**
+     * Access: ALL
+     * This function enables to find package items by its id
+     * tested
+     * */
+    @Override
+    public List<Packageitem> findByItemnameContaining(String itemname) {
+        try {
+            List<Packageitem> itemList = packageitemRepository.findByItemnameContaining(itemname);
+            if(itemList == null || itemList.size() == 0)
+                throw new Exception("No package item exist");
+            return itemList;
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new ArrayList<>();
         }
     }
 }

@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ page import="org.springframework.web.servlet.support.ServletUriComponentsBuilder"%>
-<%@ page import="com.boralesgamuwa.florists.ordermanagementapp.model.Package"%>
 <%@ page import="java.util.List"%>
 <html>
 <head>
-    <title>List Package</title>
+    <title>Add Item</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -13,7 +12,6 @@
 <body class="bg-light">
     <%
         final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-        List<Package> packageList = (List<Package>) request.getAttribute("packageList");
     %>
     <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 0px !important; background-color: #ded5d5 !important;">
@@ -26,11 +24,11 @@
               <li class="nav-item">
                 <a class="nav-link" href=<%=baseUrl + "/admin/home"%>>Home</a>
               </li>
-              <li class="nav-item active">
-                <a class="nav-link" href=<%=baseUrl + "/package/list"%>>Packages <span class="sr-only">(current)</span></a>
-              </li>
               <li class="nav-item">
-                <a class="nav-link" href=<%=baseUrl + "/item/list"%>>Items</a>
+                <a class="nav-link" href=<%=baseUrl + "/package/list"%>>Packages</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href=<%=baseUrl + "/item/list"%>>Items <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href=<%=baseUrl + "/pacNitem/list"%>>Package & Items</a>
@@ -52,68 +50,20 @@
         </nav>
 
         <div class="p-3">
-            <h5>Packages</h5>
+            <h5>Add Item</h5>
             <hr/>
             <br/>
-
-            <div class="row">
-                <div class="ml-5">
-                    <form method="post" action=<%=baseUrl + "/package/search" %>>
-                        <div class="row">
-                            <div><input type="text" class="form-control" id="name" name="name" placeholder="Search..."></div>
-                            <iv><button type="submit" class="btn btn-info">Search</button></div>
-                        </div>
-                    </form>
+            <form method="post" action=<%=baseUrl + "/item/add" %>>
+                <div class="form-group">
+                    <label for="inputName">Item Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter item name" required>
                 </div>
-                <div class="ml-5">
-                    <a href=<%= baseUrl + "/package/add" %> type="button" class="btn btn-success">Add Package</a>
+                <div class="form-group">
+                    <label for="inputAmount">Amount</label>
+                    <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter amount" required>
                 </div>
-            </div>
-
-            <%
-                if(packageList.size() == 0){
-                    %>
-                        <div class="row p-5">
-                            <div class="col-md-12 bg-warning text-center p-3" style="border-radius: 10px"> <h5 class="text-danger">No record exists</h5> </div>
-                        </div>
-                    <%
-                }
-                else{
-                    %>
-                        <div class="p-5">
-                            <table class="table table-striped table-bordered" style="width:100%">
-                              <thead>
-                                <tr>
-                                  <th scope="col">#</th>
-                                  <th scope="col">Package Name</th>
-                                  <th scope="col">Amount</th>
-                                  <th scope="col">Operations</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <%
-                                    int i = 1;
-
-                                    for(Package pkg : packageList){
-                                        %>
-                                        <tr>
-                                          <th scope="row"><%= i %></th>
-                                          <td><%= pkg.getName() %></td>
-                                          <td><%= pkg.getAmount() %></td>
-                                          <td>
-                                            <a href=<%= baseUrl + "/package/edit/" + pkg.getId() %> type="button" class="btn btn-info">Edit</a>
-                                          </td>
-                                        </tr>
-                                        <%
-                                        i++;
-                                    }
-                                %>
-                              </tbody>
-                            </table>
-                        </div>
-                    <%
-                }
-            %>
+                <button type="submit" class="btn btn-secondary">Save</button>
+            </form>
         </div>
     </div>
 </body>
