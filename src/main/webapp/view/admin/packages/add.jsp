@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ page import="org.springframework.web.servlet.support.ServletUriComponentsBuilder"%>
-<%@ page import="com.boralesgamuwa.florists.ordermanagementapp.model.Package"%>
 <%@ page import="java.util.List"%>
 <html>
 <head>
@@ -13,7 +12,6 @@
 <body class="bg-light">
     <%
         final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-        List<Package> packageList = (List<Package>) request.getAttribute("packageList");
     %>
     <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 0px !important; background-color: #ded5d5 !important;">
@@ -24,7 +22,7 @@
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="#">Home</a>
+                <a class="nav-link" href=<%=baseUrl + "/admin/home"%>>Home</a>
               </li>
               <li class="nav-item active">
                 <a class="nav-link" href=<%=baseUrl + "/package/list"%>>Packages <span class="sr-only">(current)</span></a>
@@ -33,7 +31,7 @@
                 <a class="nav-link" href=<%=baseUrl + "/item/list"%>>Items</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href=<%=baseUrl + "/item/addtopkg"%>>Add Items</a>
+                <a class="nav-link" href=<%=baseUrl + "/pacNitem/list"%>>Package & Items</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

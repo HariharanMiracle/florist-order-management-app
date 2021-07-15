@@ -16,6 +16,7 @@ import static com.boralesgamuwa.florists.ordermanagementapp.util.Constant.ERROR_
 @Slf4j
 @RequestMapping("package")
 public class PackageController {
+
     @Autowired
     PackageService packageService;
 
@@ -133,4 +134,5 @@ public class PackageController {
         }
         return modelAndView;
     }
+
 }
