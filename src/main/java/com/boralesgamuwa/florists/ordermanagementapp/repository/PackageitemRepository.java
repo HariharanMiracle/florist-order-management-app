@@ -1,6 +1,5 @@
 package com.boralesgamuwa.florists.ordermanagementapp.repository;
 
-import com.boralesgamuwa.florists.ordermanagementapp.model.Package;
 import com.boralesgamuwa.florists.ordermanagementapp.model.Packageitem;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
