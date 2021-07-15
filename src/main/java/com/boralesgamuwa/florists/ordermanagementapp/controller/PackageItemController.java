@@ -7,10 +7,7 @@ import com.boralesgamuwa.florists.ordermanagementapp.service.PackageService;
 import com.boralesgamuwa.florists.ordermanagementapp.service.PackageitemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -36,9 +33,10 @@ public class PackageItemController {
         ModelAndView modelAndView = new ModelAndView();
 
         try {
+            List<Package> packageList = packageService.listAllPackages();
 
             modelAndView.setViewName("admin/packdetails/listview");
-
+            modelAndView.addObject("packageList", packageList);
         } catch (Exception e) {
             modelAndView.setViewName("error/page");
             modelAndView.addObject("error", e.getMessage());
@@ -61,6 +59,24 @@ public class PackageItemController {
             modelAndView.addObject("itemsNotInPack", itemsNotInPack);
             modelAndView.addObject("pack", pack);
         } catch (Exception e) {
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+        return modelAndView;
+    }
+
+    @PostMapping("search")
+    public ModelAndView search(@RequestParam("name") String name){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            List<Package> packageList = packageService.findByLikeName(name);
+
+            modelAndView.setViewName("admin/packdetails/listview");
+            modelAndView.addObject("packageList", packageList);
+        }
+        catch (Exception e){
             modelAndView.setViewName("error/page");
             modelAndView.addObject("error", e.getMessage());
             log.error(ERROR_LOG, e);

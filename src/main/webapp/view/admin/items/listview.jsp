@@ -61,7 +61,7 @@
                     <form method="post" action=<%=baseUrl + "/item/search" %>>
                         <div class="row">
                             <div><input type="text" class="form-control" id="name" name="name" placeholder="Search..."></div>
-                            <iv><button type="submit" class="btn btn-info">Search</button></div>
+                            <div><button type="submit" class="btn btn-info">Search</button></div>
                         </div>
                     </form>
                 </div>
