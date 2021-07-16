@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.boralesgamuwa.florists.ordermanagementapp.util.Constant.ERROR_LOG;
@@ -31,21 +33,28 @@ public class PackitmServiceImpl implements PackitmService {
     @Autowired
     PackageitemRepository packageitemRepository;
 
-    /**
-     * Access: ADMIN
-     * This function enables to add items to a package
-     * This function also updates the package's total amount
-     * */
     @Override
-    public boolean savePackitm(List<Packitm> packitmList) {
-        try{
+    @Transactional
+    public boolean savePackItems(String[] newItemList, String packId) {
+
+        List<Packitm> packitmList = new ArrayList<>();
+
+        for (String itemId : newItemList) {
+            Packitm packitm = new Packitm();
+            packitm.setId(0);
+            packitm.setPackageid(Integer.valueOf(packId));
+            packitm.setPackageitemid(Integer.parseInt(itemId));
+            packitmList.add(packitm);
+        }
+
+        try {
             double total;
             int packageId = packitmList.get(0).getPackageid();
             Package aPackage = packageRepository.findById(packageId).get();
 
             total = aPackage.getAmount();
-            for(Packitm obj : packitmList){
-                Packageitem packageitem = packageitemRepository.findById(obj.getId()).get();
+            for (Packitm obj : packitmList) {
+                Packageitem packageitem = packageitemRepository.findById(obj.getPackageitemid()).get();
                 total += packageitem.getAmount();
             }
 
@@ -54,8 +63,7 @@ public class PackitmServiceImpl implements PackitmService {
             packageService.editPackage(aPackage);
             packitmRepository.saveAll(packitmList);
             return true;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             log.error(ERROR_LOG, e);
             return false;
         }

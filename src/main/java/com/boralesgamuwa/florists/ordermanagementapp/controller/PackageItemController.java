@@ -2,14 +2,17 @@ package com.boralesgamuwa.florists.ordermanagementapp.controller;
 
 import com.boralesgamuwa.florists.ordermanagementapp.model.Package;
 import com.boralesgamuwa.florists.ordermanagementapp.model.Packageitem;
+import com.boralesgamuwa.florists.ordermanagementapp.model.Packitm;
 import com.boralesgamuwa.florists.ordermanagementapp.service.PackItemManageService;
 import com.boralesgamuwa.florists.ordermanagementapp.service.PackageService;
 import com.boralesgamuwa.florists.ordermanagementapp.service.PackageitemService;
+import com.boralesgamuwa.florists.ordermanagementapp.service.PackitmService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.boralesgamuwa.florists.ordermanagementapp.util.Constant.ERROR_LOG;
@@ -20,7 +23,7 @@ import static com.boralesgamuwa.florists.ordermanagementapp.util.Constant.ERROR_
 public class PackageItemController {
 
     @Autowired
-    private PackItemManageService packItemManageService;
+    private PackitmService packitmService;
 
     @Autowired
     private PackageitemService packageitemService;
@@ -63,6 +66,32 @@ public class PackageItemController {
             modelAndView.addObject("error", e.getMessage());
             log.error(ERROR_LOG, e);
         }
+        return modelAndView;
+    }
+
+
+    @PostMapping("modify/{packId}")
+    public ModelAndView modifyPackDetails(@PathVariable String packId, @RequestBody String[] newItemList) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        try {
+            packitmService.savePackItems(newItemList,packId);
+
+            List<Packageitem> itemsInPack = packageitemService.findPackageItemListByPackageId(packId);
+            List<Packageitem> itemsNotInPack = packageitemService.findPackageItemListNotInPackage(packId);
+            Package pack = packageService.getPackageById(Integer.parseInt(packId));
+
+            modelAndView.setViewName("admin/packdetails/edit");
+            modelAndView.addObject("itemsInPack", itemsInPack);
+            modelAndView.addObject("itemsNotInPack", itemsNotInPack);
+            modelAndView.addObject("pack", pack);
+
+        } catch (Exception e) {
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+
         return modelAndView;
     }
 
