@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface PackitmService {
     boolean savePackitm(List<Packitm> packitmList);
+
+    boolean savePackItems(String[] newItemList, String packId);
 }
