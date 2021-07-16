@@ -36,9 +36,10 @@ public class PackageItemController {
         ModelAndView modelAndView = new ModelAndView();
 
         try {
+            List<Package> packageList = packageService.listAllPackages();
 
             modelAndView.setViewName("admin/packdetails/listview");
-
+            modelAndView.addObject("packageList", packageList);
         } catch (Exception e) {
             modelAndView.setViewName("error/page");
             modelAndView.addObject("error", e.getMessage());
@@ -91,6 +92,24 @@ public class PackageItemController {
             log.error(ERROR_LOG, e);
         }
 
+        return modelAndView;
+    }
+
+    @PostMapping("search")
+    public ModelAndView search(@RequestParam("name") String name){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            List<Package> packageList = packageService.findByLikeName(name);
+
+            modelAndView.setViewName("admin/packdetails/listview");
+            modelAndView.addObject("packageList", packageList);
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
         return modelAndView;
     }
 }
