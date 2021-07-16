@@ -61,7 +61,7 @@
 
                 <div class="col-md-1"></div>
                 <div class="col-md-4">
-                    <div class="border border-primary">
+                    <div class="border border-primary p-3" style="border-radius: 10px">
                         <div class="d-flex justify-content-center"><h4>Package Items - <%=pack.getName()%></h4></div>
                         </br>
 
@@ -71,6 +71,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Item Id</th>
                                     <th scope="col">Item Name</th>
+                                    <th scope="col">Amount</th>
                                 </tr>
                             </thead>
 
@@ -86,6 +87,7 @@
                                             <th scope="row"><%= i %></th>
                                             <td><%= inPack.getId() %></td>
                                             <td><%= inPack.getItemname() %></td>
+                                            <td><%= inPack.getAmount() %></td>
                                         </tr>
                             <%
                                         total+= inPack.getAmount();
@@ -108,7 +110,7 @@
                 </div>
                 <div class="col-md-2"></div>
                 <div class="col-md-4">
-                    <div class="border border-warning">
+                    <div class="border border-warning p-3" style="border-radius: 10px">
                         <div class="d-flex justify-content-center"><h4>Remaining Items</h4></div>
                         </br>
                         <form method="post" action=<%=baseUrl + "/pacNitem/modify/"+pack.getId() %> >
@@ -119,6 +121,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Item Id</th>
                                     <th scope="col">Item Name</th>
+                                    <th scope="col">Item Amount</th>
                                     <th scope="col">Yes/No</th>
                                 </tr>
                                 </thead>
@@ -138,6 +141,7 @@
                                         <th scope="row"><%= i %></th>
                                         <td><%= notInPack.getId() %></td>
                                         <td><%= notInPack.getItemname() %></td>
+                                        <td><%= notInPack.getAmount() %></td>
                                         <td><input type="checkbox" class="checkbox" name="items" id="<%=notInPack.getId()%>" value="<%=notInPack.getId()%>"/></td>
                                     </tr>
 

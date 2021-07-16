@@ -33,13 +33,20 @@ public class PackitmServiceImpl implements PackitmService {
     @Autowired
     PackageitemRepository packageitemRepository;
 
-    /**
-     * Access: ADMIN
-     * This function enables to add items to a package
-     * This function also updates the package's total amount
-     */
     @Override
-    public boolean savePackitm(List<Packitm> packitmList) {
+    @Transactional
+    public boolean savePackItems(String[] newItemList, String packId) {
+
+        List<Packitm> packitmList = new ArrayList<>();
+
+        for (String itemId : newItemList) {
+            Packitm packitm = new Packitm();
+            packitm.setId(0);
+            packitm.setPackageid(Integer.valueOf(packId));
+            packitm.setPackageitemid(Integer.parseInt(itemId));
+            packitmList.add(packitm);
+        }
+
         try {
             double total;
             int packageId = packitmList.get(0).getPackageid();
@@ -47,7 +54,7 @@ public class PackitmServiceImpl implements PackitmService {
 
             total = aPackage.getAmount();
             for (Packitm obj : packitmList) {
-                Packageitem packageitem = packageitemRepository.findById(obj.getId()).get();
+                Packageitem packageitem = packageitemRepository.findById(obj.getPackageitemid()).get();
                 total += packageitem.getAmount();
             }
 
@@ -56,35 +63,6 @@ public class PackitmServiceImpl implements PackitmService {
             packageService.editPackage(aPackage);
             packitmRepository.saveAll(packitmList);
             return true;
-        } catch (Exception e) {
-            log.error(ERROR_LOG, e);
-            return false;
-        }
-    }
-
-    @Override
-    @Transactional
-    public boolean savePackItems(String[] newItemList, String packId) {
-
-        List<Packitm> list = new ArrayList<>();
-
-        for (String itemId : newItemList) {
-
-            Packitm packitm = new Packitm();
-            packitm.setId(0);
-            packitm.setPackageid(Integer.valueOf(packId));
-            packitm.setPackageitemid(Integer.parseInt(itemId));
-            list.add(packitm);
-
-
-        }
-
-        try {
-
-            packitmRepository.saveAll(list);
-
-            return true;
-
         } catch (Exception e) {
             log.error(ERROR_LOG, e);
             return false;
