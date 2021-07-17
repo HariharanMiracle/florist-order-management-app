@@ -27,4 +27,6 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
 
     @Query(value="SELECT * FROM `orders` WHERE order_status = 'CANCELLED'", nativeQuery = true)
     List<Order> listAllCancelledOrders();
+
+    List<Order> findByOrderNoContainingAndManualOrderNoContainingAndNameContainingAndNicNoContaining(String orderNo, String manualOrderNo, String name, String nicNo);
 }

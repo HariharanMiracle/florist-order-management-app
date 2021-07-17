@@ -70,13 +70,15 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView();
 
         try{
+            final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+
             log.info("username: {}", username);
             log.info("password: {}", password);
 
             /**
              * Validation
              * */
-            modelAndView.setViewName("assistant/home");
+            return new ModelAndView("redirect:" + baseUrl + "/assistant/home");
         }
         catch (Exception e){
             modelAndView.setViewName("error/page");
