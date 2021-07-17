@@ -1,11 +1,10 @@
 package com.boralesgamuwa.florists.ordermanagementapp.controller;
 
-import com.boralesgamuwa.florists.ordermanagementapp.model.Order;
-import com.boralesgamuwa.florists.ordermanagementapp.model.Orderbill;
-import com.boralesgamuwa.florists.ordermanagementapp.model.Orderitem;
+import com.boralesgamuwa.florists.ordermanagementapp.model.*;
 import com.boralesgamuwa.florists.ordermanagementapp.model.Package;
 import com.boralesgamuwa.florists.ordermanagementapp.service.OrderService;
 import com.boralesgamuwa.florists.ordermanagementapp.service.PackageService;
+import com.boralesgamuwa.florists.ordermanagementapp.service.PackageitemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +25,9 @@ public class OrderController {
 
     @Autowired
     PackageService packageService;
+
+    @Autowired
+    PackageitemService packageitemService;
 
     @GetMapping("details")
     public ModelAndView getOrderDetails(){
@@ -92,6 +94,9 @@ public class OrderController {
         ModelAndView modelAndView = new ModelAndView();
 
         try{
+            List<Package> packageList = packageService.listAllPackages();
+            modelAndView.addObject("packageList", packageList);
+            modelAndView.setViewName("assistant/order/placeOrder");
         }
         catch (Exception e){
             modelAndView.setViewName("error/page");
@@ -106,6 +111,16 @@ public class OrderController {
         ModelAndView modelAndView = new ModelAndView();
 
         try{
+            /**
+             *  to send: Order order,
+             *  Package aPackage,
+             *  List<Orderitem> orderitemList,
+             *  double advance,
+             *  double balance
+             *  */
+            final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+            orderService.placeOrder(null, null, null, 0, 0);
+            return new ModelAndView("redirect:" + baseUrl + "/order/details");
         }
         catch (Exception e){
             modelAndView.setViewName("error/page");
@@ -310,4 +325,21 @@ public class OrderController {
         return modelAndView;
     }
 
+    @GetMapping("getOrderItems/{id}")
+    public ModelAndView getOrderItems(@PathVariable int id){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            List<Packageitem> packageitemList = packageitemService.findPackageItemListByPackageId(String.valueOf(id));
+            modelAndView.setViewName("assistant/order/placeOrderItems");
+            modelAndView.addObject("packageitemList", packageitemList);
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+
+        return modelAndView;
+    }
 }
