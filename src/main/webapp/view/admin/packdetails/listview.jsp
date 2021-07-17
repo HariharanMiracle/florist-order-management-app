@@ -15,7 +15,7 @@
         final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
         List<Package> packageList = (List<Package>) request.getAttribute("packageList");
     %>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 0px !important; background-color: #ded5d5 !important;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 0px !important; background-color: #ded5d5 !important;">
           <a class="navbar-brand" href="#"><img src=<%=baseUrl + "/landscape-logo.png"%> height="150px" /></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -32,23 +32,17 @@
                 <a class="nav-link" href=<%=baseUrl + "/item/list"%>>Items</a>
               </li>
               <li class="nav-item active">
-                  <a class="nav-link" href=<%=baseUrl + "/pacNitem/list"%>>Package & Items <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href=<%=baseUrl + "/pacNitem/list"%>>Package & Items <span class="sr-only">(current)</span></a>
               </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Statistics
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href=<%=baseUrl + "/statistics/all/orders"%>>All Orders</a>
-                  <a class="dropdown-item" href=<%=baseUrl + "/statistics/paid/orders"%>>Paid Orders</a>
-                  <a class="dropdown-item" href=<%=baseUrl + "/statistics/unpaid/orders"%>>Unpaid Orders</a>
-                  <a class="dropdown-item" href=<%=baseUrl + "/statistics/cancelled/orders"%>Cancelled Orders</a>
-                  <a class="dropdown-item" href=<%=baseUrl + "/report"%>>Report</a>
-                </div>
+              <li class="nav-item">
+                <a class="nav-link" href=<%=baseUrl + "/order/adminDetails"%>>Order Details</a>
               </li>
             </ul>
           </div>
-    </nav>
+          <div class="text-right mr-5">
+            <a class="btn btn-dark" href=<%=baseUrl + "/logout"%>>Logout</a>
+          </div>
+        </nav>
 
         <div class="p-3">
             <h5>Package Details</h5>
