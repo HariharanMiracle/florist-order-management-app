@@ -119,7 +119,8 @@ public class OrderServiceImpl implements OrderService {
     public boolean cancelOrder(int orderId) {
         try{
             Order order = orderRepository.findById(orderId).get();
-            order.setOrderStatus("CANCELLED");
+            if(order.getOrderStatus().equals("PROCESSING"))
+                order.setOrderStatus("CANCELLED");
             orderRepository.save(order);
 
             return true;
@@ -357,6 +358,44 @@ public class OrderServiceImpl implements OrderService {
     public List<Orderitem> listOrderItemByOrderId(int orderId) {
         try{
             return orderitemRepository.findByOrderId(orderId);
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public List<Order> filterOrders(String orderNo, String manualOrderNo, String name, String nicNo) {
+        try{
+            if(orderNo == null){
+                orderNo = "";
+            }
+
+            if(manualOrderNo == null){
+                manualOrderNo = "";
+            }
+
+            if(name == null){
+                name = "";
+            }
+
+            if(nicNo == null){
+                nicNo = "";
+            }
+
+            return orderRepository.findByOrderNoContainingAndManualOrderNoContainingAndNameContainingAndNicNoContaining(orderNo, manualOrderNo, name, nicNo);
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public List<Orderbill> listAllOrderbillByOrderId(int id) {
+        try{
+            return orderbillRepository.findByOrderNo(id);
         }
         catch (Exception e){
             log.error(ERROR_LOG, e);
