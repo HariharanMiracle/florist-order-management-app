@@ -48,7 +48,7 @@
         </nav>
 
         <div class="p-5">
-            <h1>Order details</h1>
+            <h1>Pay Balance</h1>
             <hr/>
             <br/>
 

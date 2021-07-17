@@ -48,7 +48,7 @@
         <div class="p-5">
             <input type="hidden" id="url" value="<%=baseUrl + "/order/cancelOrder" %>">
 
-            <h1>Order details</h1>
+            <h1>Cancel Order</h1>
             <hr/>
             <br/>
 
@@ -119,7 +119,19 @@
                                         %>
                                         <td><%= order.getAmount() %></td>
                                         <td>
-                                            <button class="btn btn-warning" onclick="cancelOrder(<%= order.getId() %>)">Cancel Order</button>
+                                            <%
+                                                if(order.getOrderStatus().equals("PROCESSING")){
+                                                    %>
+                                                        <button class="btn btn-warning" onclick="cancelOrder(<%= order.getId() %>)">Cancel Order</button>
+                                                    <%
+                                                }
+                                                else{
+                                                    %>
+                                                        <p class="text-danger">You can only cancel processing order</p>
+                                                    <%
+                                                }
+                                            %>
+
                                         </td>
                                     </tr>
                                 <%
