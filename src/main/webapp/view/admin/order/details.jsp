@@ -26,19 +26,19 @@
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href=<%=baseUrl + "/assistant/home"%>>Home</a>
+                <a class="nav-link" href=<%=baseUrl + "/admin/home"%>>Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href=<%=baseUrl + "/package/list"%>>Packages</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href=<%=baseUrl + "/item/list"%>>Items</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href=<%=baseUrl + "/pacNitem/list"%>>Package & Items</a>
               </li>
               <li class="nav-item active">
-                <a class="nav-link" href=<%=baseUrl + "/order/details"%>>Order Details <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href=<%=baseUrl + "/order/placeOrder"%>>Place Order</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href=<%=baseUrl + "/order/cancelOrder"%>>Cancel Order</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href=<%=baseUrl + "/order/payBalance"%>>Pay Balance</a>
+                <a class="nav-link" href=<%=baseUrl + "/order/adminDetails"%>>Order Details <span class="sr-only">(current)</span></a>
               </li>
             </ul>
           </div>
@@ -54,7 +54,7 @@
 
             <div class="row">
                 <div class="ml-5">
-                    <form method="post" action=<%=baseUrl + "/order/listFilter" %>>
+                    <form method="post" action=<%=baseUrl + "/order/adminListFilter" %>>
                         <div class="row">
                             <div><input type="text" class="form-control" id="orderNo" name="orderNo" placeholder="Order No"></div>
                             <div><input type="text" class="form-control" id="manualOrderNo" name="manualOrderNo" placeholder="Manual Order No"></div>
@@ -118,7 +118,7 @@
                                         %>
                                         <td><%= order.getAmount() %></td>
                                         <td>
-                                            <a href=<%= baseUrl + "/order/detail/" + order.getId() %> type="button" class="btn btn-warning">View Order Details</a>
+                                            <a href=<%= baseUrl + "/order/adminDetail/" + order.getId() %> type="button" class="btn btn-warning">View Order Details</a>
                                         </td>
                                     </tr>
                                 <%

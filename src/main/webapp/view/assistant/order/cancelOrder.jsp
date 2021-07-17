@@ -40,6 +40,9 @@
               </li>
             </ul>
           </div>
+          <div class="text-right mr-5">
+            <a class="btn btn-dark" href=<%=baseUrl + "/logout"%>>Logout</a>
+          </div>
         </nav>
 
         <div class="p-5">

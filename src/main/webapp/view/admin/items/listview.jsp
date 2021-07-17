@@ -35,19 +35,13 @@
               <li class="nav-item">
                 <a class="nav-link" href=<%=baseUrl + "/pacNitem/list"%>>Package & Items</a>
               </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Statistics
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href=<%=baseUrl + "/statistics/all/orders"%>>All Orders</a>
-                  <a class="dropdown-item" href=<%=baseUrl + "/statistics/paid/orders"%>>Paid Orders</a>
-                  <a class="dropdown-item" href=<%=baseUrl + "/statistics/unpaid/orders"%>>Unpaid Orders</a>
-                  <a class="dropdown-item" href=<%=baseUrl + "/statistics/cancelled/orders"%>Cancelled Orders</a>
-                  <a class="dropdown-item" href=<%=baseUrl + "/report"%>>Report</a>
-                </div>
+              <li class="nav-item">
+                <a class="nav-link" href=<%=baseUrl + "/order/adminDetails"%>>Order Details</a>
               </li>
             </ul>
+          </div>
+          <div class="text-right mr-5">
+            <a class="btn btn-dark" href=<%=baseUrl + "/logout"%>>Logout</a>
           </div>
         </nav>
 

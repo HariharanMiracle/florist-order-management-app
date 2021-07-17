@@ -195,4 +195,64 @@ public class OrderController {
         return modelAndView;
     }
 
+    @GetMapping("adminDetails")
+    public ModelAndView getOrderDetailsAdmin(){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            modelAndView.addObject("orderList", orderService.listAllOrders());
+            modelAndView.setViewName("admin/order/details");
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+        return modelAndView;
+    }
+
+    @PostMapping("adminListFilter")
+    public ModelAndView getOrderDetailsFilteredAdmin(@RequestParam("orderNo") String orderNo,
+                                                @RequestParam("manualOrderNo") String manualOrderNo,
+                                                @RequestParam("name") String name,
+                                                @RequestParam("nicNo") String nicNo){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            modelAndView.addObject("orderList", orderService.filterOrders(orderNo, manualOrderNo, name, nicNo));
+            modelAndView.setViewName("admin/order/details");
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+        return modelAndView;
+    }
+
+    @GetMapping("adminDetail/{id}")
+    public ModelAndView getOrderDetailsByIdAdmin(@PathVariable int id){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            Order order = orderService.getOrderById(id);
+            Package pkg = packageService.getPackageById(order.getPackageId());
+            List<Orderbill> orderbillList = orderService.listAllOrderbillByOrderId(order.getId());
+            List<Orderitem> orderItemList = orderService.listOrderItemByOrderId(order.getId());
+
+            modelAndView.addObject("order", order);
+            modelAndView.addObject("orderbillList", orderbillList);
+            modelAndView.addObject("orderItemList", orderItemList);
+            modelAndView.addObject("package", pkg.getName());
+
+            modelAndView.setViewName("admin/order/detail");
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+        return modelAndView;
+    }
+
 }

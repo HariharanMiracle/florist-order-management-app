@@ -41,14 +41,15 @@
                 <a class="nav-link" href=<%=baseUrl + "/item/list"%>>Items</a>
               </li>
               <li class="nav-item active">
-                  <a class="nav-link" href=<%=baseUrl + "/pacNitem/list"%>>Package & Items <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href=<%=baseUrl + "/pacNitem/list"%>>Package & Items <span class="sr-only">(current)</span></a>
               </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Statistics
-                </a>
+              <li class="nav-item">
+                <a class="nav-link" href=<%=baseUrl + "/order/adminDetails"%>>Order Details</a>
               </li>
             </ul>
+          </div>
+          <div class="text-right mr-5">
+            <a class="btn btn-dark" href=<%=baseUrl + "/logout"%>>Logout</a>
           </div>
         </nav>
 
