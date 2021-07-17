@@ -168,10 +168,62 @@ public class OrderController {
     }
 
     @GetMapping("payBalance")
-    public ModelAndView payBalanceForm(){
+    public ModelAndView payBalanceOrders(){
         ModelAndView modelAndView = new ModelAndView();
 
         try{
+            modelAndView.addObject("orderList", orderService.listAllOrders());
+            modelAndView.setViewName("assistant/order/payBalance");
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+        return modelAndView;
+    }
+
+    @GetMapping("payBalance/{id}")
+    public ModelAndView payBalanceByOrderId(@PathVariable int id){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            Order order = orderService.getOrderById(id);
+            List<Orderbill> orderbillList = orderService.listAllOrderbillByOrderId(order.getId());
+            double amountToBePaid = 0;
+            double amountPaid = 0;
+
+            for(Orderbill orderbill : orderbillList){
+                amountPaid += orderbill.getPayment();
+            }
+
+            amountToBePaid = order.getAmount() - amountPaid;
+
+            modelAndView.addObject("order", order);
+            modelAndView.addObject("orderbillList", orderbillList);
+            modelAndView.addObject("amountToBePaid", amountToBePaid);
+            modelAndView.addObject("amountPaid", amountPaid);
+
+            modelAndView.setViewName("assistant/order/payBalanceForm");
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+        return modelAndView;
+    }
+
+    @PostMapping("listFilterPayBalance")
+    public ModelAndView getOrderDetailsFilteredPayBalance(@RequestParam("orderNo") String orderNo,
+                                                @RequestParam("manualOrderNo") String manualOrderNo,
+                                                @RequestParam("name") String name,
+                                                @RequestParam("nicNo") String nicNo){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            modelAndView.addObject("orderList", orderService.filterOrders(orderNo, manualOrderNo, name, nicNo));
+            modelAndView.setViewName("assistant/order/payBalance");
         }
         catch (Exception e){
             modelAndView.setViewName("error/page");
@@ -182,10 +234,13 @@ public class OrderController {
     }
 
     @PostMapping("payBalance")
-    public ModelAndView payBalance(){
+    public ModelAndView payBalanceForm(@RequestParam("balance") double balance, @RequestParam("orderId") int orderId){
         ModelAndView modelAndView = new ModelAndView();
 
         try{
+            final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+            orderService.payBalance(orderId, balance);
+            return new ModelAndView("redirect:" + baseUrl + "/order/payBalance");
         }
         catch (Exception e){
             modelAndView.setViewName("error/page");

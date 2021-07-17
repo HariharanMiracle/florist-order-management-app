@@ -154,7 +154,7 @@ public class OrderServiceImpl implements OrderService {
 
             Orderbill saveOrderBill = new Orderbill();
             saveOrderBill.setOrderNo(order.getId());
-            saveOrderBill.setType("ADVANCE");
+            saveOrderBill.setType("NOT_ADVANCE");
             saveOrderBill.setPayment(amount);
             saveOrderBill.setDate(orderDate);
 
