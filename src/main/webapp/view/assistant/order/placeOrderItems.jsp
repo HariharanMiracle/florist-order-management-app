@@ -7,10 +7,10 @@
         for(Packageitem itm : packList){
             %>
                 <div class="row">
-                    <input type="hidden" class="form-control" name="itemId" required>
+                    <input type="hidden" class="ItemId form-control" name="itemId" value="<%= itm.getId() %>" required>
                     <div class="col-md-4 p-2"><h6 class="mt-2"><%= itm.getItemname() %></h6></div>
-                    <div class="col-md-4 p-2"><input type="text" class="form-control" name="itemActualAmount" value="<%= itm.getAmount() %>" readonly></div>
-                    <div class="col-md-4 p-2"><input type="text" class="form-control" name="itemAdjustedAmount" placeholder="Enter adjusted amount" required></div>
+                    <div class="col-md-4 p-2"><input type="number" class="ItemActValue form-control" name="itemActualAmount" value="<%= itm.getAmount() %>" readonly></div>
+                    <div class="col-md-4 p-2"><input type="number" class="ItemAdjValue form-control" name="itemAdjustedAmount" placeholder="Enter adjusted amount" required></div>
                 </div>
             <%
         }

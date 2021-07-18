@@ -177,12 +177,24 @@
         let advance = $('#advance').val();
         let balance = $('#balance').val();
         let packageId = $('#packageId').val();
-        let Entity = new Order(manualOrderNo,title,name,address,religion,nicNo,telephoneNo,deadPersonName,funeralDate,cemetry,cremationBurrial,billTo,payMode,advance,balance,packageId);
+
+        let DomElmItemId = document.querySelectorAll('.ItemId');
+        let DomElmItemActAmount = document.querySelectorAll('.ItemActValue');
+        let DomElmItemAdjAmount = document.querySelectorAll('.ItemAdjValue');
+        let Item = [];
+
+        for(let i = 0; i<DomElmItemId.length; i++)
+        {
+            let AdjValue = (DomElmItemAdjAmount[i].value<0 || DomElmItemAdjAmount[i].value==null || DomElmItemAdjAmount[i].value==="")?DomElmItemActAmount[i].value:DomElmItemAdjAmount[i].value;
+            Item.push([DomElmItemId[i].value,AdjValue])
+        }
+
+        let Entity = new Order(manualOrderNo,title,name,address,religion,nicNo,telephoneNo,deadPersonName,funeralDate,cemetry,cremationBurrial,billTo,payMode,advance,balance,packageId,Item);
 
         (IsFieldsEmpty(".placeOrderFields"))?PlaceOrder(Entity):alert("Mandatory Fields cannot Be Empty");
     }
 
-    function Order(manualOrderNo,title,name,address,religion,nicNo,telephoneNo,deadPersonName,funeralDate,cemetry,cremationBurrial,billTo,payMode,advance,balance,packageId)
+    function Order(manualOrderNo,title,name,address,religion,nicNo,telephoneNo,deadPersonName,funeralDate,cemetry,cremationBurrial,billTo,payMode,advance,balance,packageId,Item)
     {
         this.manualOrderNo = manualOrderNo;
         this.title = title;
@@ -200,6 +212,7 @@
         this.advance = advance;
         this.balance = balance;
         this.packageId = packageId;
+        this.Item = Item;
     }
 
     function PlaceOrder(Entity)
