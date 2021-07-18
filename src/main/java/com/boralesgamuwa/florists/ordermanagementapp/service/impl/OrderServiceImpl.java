@@ -6,11 +6,11 @@ import com.boralesgamuwa.florists.ordermanagementapp.repository.OrderbillReposit
 import com.boralesgamuwa.florists.ordermanagementapp.repository.OrderitemRepository;
 import com.boralesgamuwa.florists.ordermanagementapp.repository.PrintjobRepository;
 import com.boralesgamuwa.florists.ordermanagementapp.service.OrderService;
+import com.boralesgamuwa.florists.ordermanagementapp.service.PackageitemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.Package;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,29 +34,41 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderitemRepository orderitemRepository;
 
+    @Autowired
+    PackageitemService packageitemService;
+
     /**
      * Access: Assistant
      * This function enables to place an order
      * */
     @Override
-    public boolean placeOrder(Order order, Package aPackage, List<Orderitem> orderitemList, double advance, double balance) {
+    public boolean placeOrder(Order order, List<Orderitem> orderitemList, double advance, double balance) {
         try{
             /**
              * Save order
              * */
+            double sum = 0;
             double total = advance + balance;
+
+            for(Orderitem orderitem : orderitemList){
+                sum += orderitem.getAdjustedAmount();
+            }
+            order.setAmount(sum);
 
             Date date = new Date();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             String orderDate = formatter.format(date);
 
             order.setOrderDate(orderDate);
-            order.setOrderStatus("PROCESSING");
 
-            if(order.getAmount() == total)
+            if(order.getAmount() == total){
                 order.setBillStatus("PAID");
-            else
+                order.setOrderStatus("COMPLETED");
+            }
+            else{
                 order.setBillStatus("UN_PAID");
+                order.setOrderStatus("PROCESSING");
+            }
 
             Order savedOrder = orderRepository.save(order);
             String savedOrderId = "ORD" +  String.format("%7d", savedOrder.getId());
@@ -92,6 +104,12 @@ public class OrderServiceImpl implements OrderService {
             /**
              * Save all items
              * */
+            for(Orderitem orderitem : orderitemList){
+                Packageitem item = packageitemService.findItemById(orderitem.getItemId());
+                orderitem.setName(item.getItemname());
+                orderitem.setActualAmount(item.getAmount());
+                orderitem.setOrderId(savedOrder.getId());
+            }
             orderitemRepository.saveAll(orderitemList);
 
             /**

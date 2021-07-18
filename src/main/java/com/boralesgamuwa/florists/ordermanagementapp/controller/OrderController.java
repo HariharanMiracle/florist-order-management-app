@@ -6,7 +6,6 @@ import com.boralesgamuwa.florists.ordermanagementapp.service.OrderService;
 import com.boralesgamuwa.florists.ordermanagementapp.service.PackageService;
 import com.boralesgamuwa.florists.ordermanagementapp.service.PackageitemService;
 import com.google.gson.JsonObject;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import com.google.gson.Gson;
 
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Date;
 import java.util.List;
 
 import static com.boralesgamuwa.florists.ordermanagementapp.util.Constant.ERROR_LOG;
@@ -122,26 +120,53 @@ public class OrderController {
         try{
             JsonObject data = new Gson().fromJson(request.getReader(), JsonObject.class);
 
-            String manualOrderNo = data.get("manualOrderNo").getAsString();
-            String title = data.get("title").getAsString();
-            String name = data.get("name").getAsString();
-            String address = data.get("address").getAsString();
-            String religion = data.get("religion").getAsString();
-            String nicNo = data.get("nicNo").getAsString();
-            String telephoneNo = data.get("telephoneNo").getAsString();
-            String deadPersonName = data.get("deadPersonName").getAsString();
-            String funeralDate = data.get("funeralDate").getAsString();
-            String cemetry = data.get("cemetry").getAsString();
-            String cremationBurrial = data.get("cremationBurrial").getAsString();
-            String billTo = data.get("billTo").getAsString();
-            String payMode = data.get("payMode").getAsString();
-            double advance = Double.parseDouble(data.get("advance").getAsString());
-            double balance =Double.parseDouble( data.get("balance").getAsString());
-            int packageId = Integer.parseInt(data.get("packageId").getAsString());
-
-            System.out.println(manualOrderNo);
-
             Order order = new Order();
+
+            String manualOrderNo = data.get("manualOrderNo").getAsString();
+            order.setManualOrderNo(manualOrderNo);
+
+            String title = data.get("title").getAsString();
+            order.setTitle(title);
+
+            String name = data.get("name").getAsString();
+            order.setName(name);
+
+            String address = data.get("address").getAsString();
+            order.setAddress(address);
+
+            String religion = data.get("religion").getAsString();
+            order.setReligion(religion);
+
+            String nicNo = data.get("nicNo").getAsString();
+            order.setNicNo(nicNo);
+
+            String telephoneNo = data.get("telephoneNo").getAsString();
+            order.setTelephoneNo(telephoneNo);
+
+            String deadPersonName = data.get("deadPersonName").getAsString();
+            order.setDeadPersonName(deadPersonName);
+
+            String funeralDate = data.get("funeralDate").getAsString();
+            order.setFuneralDate(funeralDate);
+
+            String cemetry = data.get("cemetry").getAsString();
+            order.setCemetry(cemetry);
+
+            String cremationBurrial = data.get("cremationBurrial").getAsString();
+            order.setCremationBurrial(cremationBurrial);
+
+            String billTo = data.get("billTo").getAsString();
+            order.setBillTo(billTo);
+
+            String payMode = data.get("payMode").getAsString();
+            order.setPayMode(payMode);
+
+            int packageId = Integer.parseInt(data.get("packageId").getAsString());
+            order.setPackageId(packageId);
+
+            double advance = Double.parseDouble(data.get("advance").getAsString());
+
+            double balance = Double.parseDouble( data.get("balance").getAsString());
 
             /**
              *  to send: Order order,
@@ -151,7 +176,7 @@ public class OrderController {
              *  double balance
              *  */
             final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-            orderService.placeOrder(null, null, null, 0, 0);
+            orderService.placeOrder(order, null, advance, balance);
             return new ModelAndView("redirect:" + baseUrl + "/order/details");
         }
         catch (Exception e){

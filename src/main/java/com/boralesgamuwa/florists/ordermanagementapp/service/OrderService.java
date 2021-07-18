@@ -7,7 +7,7 @@ import com.boralesgamuwa.florists.ordermanagementapp.model.Orderitem;
 import java.util.List;
 
 public interface OrderService {
-    boolean placeOrder(Order order, Package aPackage, List<Orderitem> orderitemList, double advance, double balance);
+    boolean placeOrder(Order order, List<Orderitem> orderitemList, double advance, double balance);
     boolean cancelOrder(int orderId);
     boolean payBalance(int orderId, double amount);
     boolean completeOrder(int orderId);
