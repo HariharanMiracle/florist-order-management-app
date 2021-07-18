@@ -5,12 +5,18 @@ import com.boralesgamuwa.florists.ordermanagementapp.model.Package;
 import com.boralesgamuwa.florists.ordermanagementapp.service.OrderService;
 import com.boralesgamuwa.florists.ordermanagementapp.service.PackageService;
 import com.boralesgamuwa.florists.ordermanagementapp.service.PackageitemService;
+import com.google.gson.JsonObject;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import com.google.gson.Gson;
 
+
+import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
 import java.util.List;
 
 import static com.boralesgamuwa.florists.ordermanagementapp.util.Constant.ERROR_LOG;
@@ -107,10 +113,36 @@ public class OrderController {
     }
 
     @PostMapping("placeOrder")
-    public ModelAndView placeOrder(){
+    public ModelAndView placeOrder(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
+//        System.out.println("here");
+
+//        System.out.println(Data);
 
         try{
+            JsonObject data = new Gson().fromJson(request.getReader(), JsonObject.class);
+
+            String manualOrderNo = data.get("manualOrderNo").getAsString();
+            String title = data.get("title").getAsString();
+            String name = data.get("name").getAsString();
+            String address = data.get("address").getAsString();
+            String religion = data.get("religion").getAsString();
+            String nicNo = data.get("nicNo").getAsString();
+            String telephoneNo = data.get("telephoneNo").getAsString();
+            String deadPersonName = data.get("deadPersonName").getAsString();
+            String funeralDate = data.get("funeralDate").getAsString();
+            String cemetry = data.get("cemetry").getAsString();
+            String cremationBurrial = data.get("cremationBurrial").getAsString();
+            String billTo = data.get("billTo").getAsString();
+            String payMode = data.get("payMode").getAsString();
+            double advance = Double.parseDouble(data.get("advance").getAsString());
+            double balance =Double.parseDouble( data.get("balance").getAsString());
+            int packageId = Integer.parseInt(data.get("packageId").getAsString());
+
+            System.out.println(manualOrderNo);
+
+            Order order = new Order();
+
             /**
              *  to send: Order order,
              *  Package aPackage,
