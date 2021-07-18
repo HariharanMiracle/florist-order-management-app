@@ -142,7 +142,7 @@
                             <h5> <%=order.getBillStatus() %> </h5>
                             <br/>
 
-                            <h6 class="text-info">AMOUNT</h6>
+                            <h6 class="text-info">TOTAL AMOUNT</h6>
                             <h5> <%=order.getAmount() %> </h5>
                         </div>
                     </div>
@@ -185,6 +185,7 @@
                     <hr/>
                     <br/>
 
+                    <% double amnt = 0; %>
                     <table class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
@@ -197,7 +198,6 @@
                         <tbody>
                             <%
                                 i = 1;
-
                                 for(Orderbill bill : orderbillList){
                                     %>
                                         <tr>
@@ -207,11 +207,22 @@
                                             <td><%= bill.getType() %></td>
                                         </tr>
                                     <%
+                                    amnt += bill.getPayment();
                                     i++;
                                 }
                             %>
                         </tbody>
                     </table>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-info">BALANCE AMOUNT</h6>
+                            <h5><%= order.getAmount() - amnt %></h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-info">PAID AMOUNT</h6>
+                            <h5><%= amnt %></h5>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
