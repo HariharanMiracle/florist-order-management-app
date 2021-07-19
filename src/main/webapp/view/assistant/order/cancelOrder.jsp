@@ -100,18 +100,18 @@
                                         <td><%= order.getTelephoneNo() %></td>
                                         <%
                                             if(order.getOrderStatus().equals("PROCESSING")){
-                                                %><td class="bg-warning text-white">PROCESSING</td><%
+                                                %><td class="bg-danger text-white">PROCESSING</td><%
                                             }
                                             else if(order.getOrderStatus().equals("COMPLETED")){
-                                                %><td class="bg-success text-white">COMPLETED</td><%
+                                                %><td class="bg-light">COMPLETED</td><%
                                             }
                                             else{
-                                                %><td class="bg-danger text-white">CANCELLED</td><%
+                                                %><td class="bg-success text-white">CANCELLED</td><%
                                             }
                                         %>
                                         <%
                                             if(order.getBillStatus().equals("PAID")){
-                                                %><td class="bg-success text-white">PAID</td><%
+                                                %><td class="bg-light">PAID</td><%
                                             }
                                             else{
                                                 %><td class="bg-danger text-white">UN PAID</td><%
