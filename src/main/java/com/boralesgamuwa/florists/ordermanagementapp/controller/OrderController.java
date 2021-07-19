@@ -5,6 +5,8 @@ import com.boralesgamuwa.florists.ordermanagementapp.model.Package;
 import com.boralesgamuwa.florists.ordermanagementapp.service.OrderService;
 import com.boralesgamuwa.florists.ordermanagementapp.service.PackageService;
 import com.boralesgamuwa.florists.ordermanagementapp.service.PackageitemService;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import com.google.gson.Gson;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.boralesgamuwa.florists.ordermanagementapp.util.Constant.ERROR_LOG;
@@ -168,6 +171,22 @@ public class OrderController {
 
             double balance = Double.parseDouble( data.get("balance").getAsString());
 
+            JsonArray items = data.get("Item").getAsJsonArray();
+
+            List<Orderitem> orderitemList = new ArrayList<>();
+
+            for(JsonElement obj : items){
+                System.out.println(obj.toString());
+                String val = obj.toString();
+                String[] splitVal = val.split("\"");
+
+                Orderitem orderitem = new Orderitem();
+                orderitem.setAdjustedAmount(Double.parseDouble(splitVal[3]));
+                orderitem.setItemId(Integer.parseInt(splitVal[1]));
+                orderitemList.add(orderitem);
+            }
+
+
             /**
              *  to send: Order order,
              *  Package aPackage,
@@ -176,7 +195,7 @@ public class OrderController {
              *  double balance
              *  */
             final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-            orderService.placeOrder(order, null, advance, balance);
+            orderService.placeOrder(order, orderitemList, advance, balance);
             return new ModelAndView("redirect:" + baseUrl + "/order/details");
         }
         catch (Exception e){

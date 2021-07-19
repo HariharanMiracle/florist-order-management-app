@@ -15,13 +15,13 @@ public class Test {
     public static void main(String[] args) {
         try{
             System.out.println("test method2");
-            Date date = new Date();
-            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            int year = localDate.getYear();
-            int month = localDate.getMonthValue();
+            String a = "[\"2\",\"800\"]";
+            String[] b = a.split("\"");
+            System.out.println(b);
+            // 1, 3
 
-            System.out.println(year);
-            System.out.println(month);
+            String savedOrderId = "ORD" +  String.format("%07d", 5);
+            System.out.println(savedOrderId);
         }
         catch (Exception e){
             System.out.println("Error: " + e);

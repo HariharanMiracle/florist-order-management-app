@@ -18,6 +18,7 @@
         final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
         List<Package> packageList = (List<Package>) request.getAttribute("packageList");
     %>
+    <input type="hidden" id="url1" value="<%= baseUrl %>"/>
     <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 0px !important; background-color: #ded5d5 !important;">
           <a class="navbar-brand" href="#"><img src=<%=baseUrl + "/landscape-logo.png"%> height="150px" /></a>
@@ -230,6 +231,9 @@
     function SuccessPlaceOrder(Response)
     {
         console.log(Response)
+        location.reload();
+        alert(document.getElementById("url1").value + "/order/details");
+        window.location.href = document.getElementById("url1").value + "/order/details";
     }
 
     function IsFieldsEmpty(ClassName)

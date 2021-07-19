@@ -71,7 +71,7 @@ public class OrderServiceImpl implements OrderService {
             }
 
             Order savedOrder = orderRepository.save(order);
-            String savedOrderId = "ORD" +  String.format("%7d", savedOrder.getId());
+            String savedOrderId = "ORD" +  String.format("%09d", savedOrder.getId());
             order.setOrderNo(savedOrderId);
             orderRepository.save(order);
 
