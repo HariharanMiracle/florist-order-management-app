@@ -24,4 +24,5 @@ public interface OrderService {
     List<Order> filterOrders(String orderNo, String manualOrderNo, String name, String nicNo);
     List<Orderbill> listAllOrderbillByOrderId(int id);
     Order findLastOrder();
+    List<Order> listOrdersBetweenDate(String startDate, String endDate);
 }

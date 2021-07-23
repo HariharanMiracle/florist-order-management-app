@@ -63,6 +63,10 @@
                             <div><input type="text" class="form-control" id="manualOrderNo" name="manualOrderNo" placeholder="Manual Order No"></div>
                             <div><input type="text" class="form-control" id="name" name="name" placeholder="Name"></div>
                             <div><input type="text" class="form-control" id="nicNo" name="nicNo" placeholder="Nic No"></div>
+
+                            <div><input type="date" class="form-control" id="startDate" name="startDate" placeholder="Start Date"></div>
+                            <div><input type="date" class="form-control" id="endDate" name="endDate" placeholder="End Date"></div>
+
                             <div><button type="submit" class="btn btn-info">Search</button></div>
                         </div>
                     </form>
@@ -89,8 +93,9 @@
                     <tbody>
                         <%
                             int i = 1;
-
+                            double tot = 0;
                             for(Order order : orderList){
+                                tot += order.getAmount();
                                 %>
                                     <tr>
                                         <th scope="row"><%= i %></th>
@@ -130,6 +135,8 @@
                         %>
                     </tbody>
                 </table>
+                <br/>
+                <h6>Total Order Amount: <%= tot %></h6>
             </div>
         </div>
     </div>

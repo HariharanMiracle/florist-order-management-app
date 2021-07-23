@@ -182,6 +182,7 @@ public class OrderServiceImpl implements OrderService {
             else{
                 if(total == order.getAmount()){
                     order.setBillStatus("PAID");
+                    order.setOrderStatus("COMPLETED");
                     orderRepository.save(order);
                 }
 
@@ -429,6 +430,17 @@ public class OrderServiceImpl implements OrderService {
         catch (Exception e){
             log.error(ERROR_LOG, e);
             return new Order();
+        }
+    }
+
+    @Override
+    public List<Order> listOrdersBetweenDate(String startDate, String endDate) {
+        try{
+            return orderRepository.listOrdersBetweenDate(startDate, endDate);
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new ArrayList<>();
         }
     }
 

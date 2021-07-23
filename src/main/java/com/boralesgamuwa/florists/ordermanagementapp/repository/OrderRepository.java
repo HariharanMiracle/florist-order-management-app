@@ -32,4 +32,7 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
 
     @Query(value = "SELECT * FROM orders ORDER BY id DESC LIMIT 1", nativeQuery = true)
     Order findLastOrder();
+
+    @Query(value = "SELECT * FROM orders WHERE order_date BETWEEN ? AND ?", nativeQuery = true)
+    List<Order> listOrdersBetweenDate(String startDate, String endDate);
 }

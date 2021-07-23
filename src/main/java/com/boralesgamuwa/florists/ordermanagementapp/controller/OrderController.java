@@ -369,11 +369,17 @@ public class OrderController {
     public ModelAndView getOrderDetailsFilteredAdmin(@RequestParam("orderNo") String orderNo,
                                                 @RequestParam("manualOrderNo") String manualOrderNo,
                                                 @RequestParam("name") String name,
-                                                @RequestParam("nicNo") String nicNo){
+                                                @RequestParam("nicNo") String nicNo,
+                                                @RequestParam("startDate") String startDate,
+                                                @RequestParam("endDate") String endDate){
         ModelAndView modelAndView = new ModelAndView();
 
         try{
-            modelAndView.addObject("orderList", orderService.filterOrders(orderNo, manualOrderNo, name, nicNo));
+            if((startDate == null || startDate.isEmpty()) && (endDate == null || endDate.isEmpty()))
+                modelAndView.addObject("orderList", orderService.filterOrders(orderNo, manualOrderNo, name, nicNo));
+            else
+                modelAndView.addObject("orderList", orderService.listOrdersBetweenDate(startDate, endDate));
+
             modelAndView.setViewName("admin/order/details");
         }
         catch (Exception e){

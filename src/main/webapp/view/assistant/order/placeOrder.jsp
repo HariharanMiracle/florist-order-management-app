@@ -246,7 +246,6 @@
     {
         console.log(Response)
         location.reload();
-        alert(document.getElementById("url1").value + "/order/details");
         window.location.href = document.getElementById("url1").value + "/order/details";
     }
 
@@ -261,4 +260,20 @@
         return true;
     }
 
+    function myFunction() {
+        var tot = 0;
+        var price1 = document.getElementsByName("itemActualAmount");
+        var price2 = document.getElementsByName("itemAdjustedAmount");
+
+        for(var i = 0; i < price1.length; i++){
+            if(price2[i].value == "" || price2[i].value.length == 0){
+                tot += parseFloat(price1[i].value);
+            }
+            else{
+                tot += parseFloat(price2[i].value);
+            }
+        }
+
+        document.getElementById("totalPrice").innerHTML = tot;
+    }
 </script>
