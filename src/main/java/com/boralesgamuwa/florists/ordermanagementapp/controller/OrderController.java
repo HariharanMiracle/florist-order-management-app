@@ -101,8 +101,16 @@ public class OrderController {
         ModelAndView modelAndView = new ModelAndView();
 
         try{
+            String lastManualOrderNumber = "";
+            Order order = orderService.findLastOrder();
+            if(order.getManualOrderNo() == null || order.getManualOrderNo().isEmpty())
+                lastManualOrderNumber = "NONE";
+            else
+                lastManualOrderNumber = order.getManualOrderNo();
+
             List<Package> packageList = packageService.listAllPackages();
             modelAndView.addObject("packageList", packageList);
+            modelAndView.addObject("lastManualOrderNumber", lastManualOrderNumber);
             modelAndView.setViewName("assistant/order/placeOrder");
         }
         catch (Exception e){
@@ -212,7 +220,7 @@ public class OrderController {
 
         try{
             modelAndView.addObject("orderList", orderService.listAllOrders());
-            modelAndView.setViewName("assistant/order/cancelOrder");
+            modelAndView.setViewName("admin/order/cancelOrder");
         }
         catch (Exception e){
             modelAndView.setViewName("error/page");

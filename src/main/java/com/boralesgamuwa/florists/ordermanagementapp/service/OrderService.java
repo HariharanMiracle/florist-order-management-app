@@ -23,4 +23,5 @@ public interface OrderService {
     List<Orderitem> listOrderItemByOrderId(int orderId);
     List<Order> filterOrders(String orderNo, String manualOrderNo, String name, String nicNo);
     List<Orderbill> listAllOrderbillByOrderId(int id);
+    Order findLastOrder();
 }

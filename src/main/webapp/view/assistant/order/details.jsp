@@ -35,9 +35,6 @@
                 <a class="nav-link" href=<%=baseUrl + "/order/placeOrder"%>>Place Order</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href=<%=baseUrl + "/order/cancelOrder"%>>Cancel Order</a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link" href=<%=baseUrl + "/order/payBalance"%>>Pay Balance</a>
               </li>
             </ul>

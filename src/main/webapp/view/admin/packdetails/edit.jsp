@@ -44,6 +44,9 @@
                 <a class="nav-link" href=<%=baseUrl + "/pacNitem/list"%>>Package & Items <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" href=<%=baseUrl + "/order/cancelOrder"%>>Cancel Order</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href=<%=baseUrl + "/order/adminDetails"%>>Order Details</a>
               </li>
             </ul>

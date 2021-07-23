@@ -41,9 +41,6 @@
                 <a class="nav-link" href=<%=baseUrl + "/order/placeOrder"%>>Place Order</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href=<%=baseUrl + "/order/cancelOrder"%>>Cancel Order</a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link" href=<%=baseUrl + "/order/payBalance"%>>Pay Balance</a>
               </li>
             </ul>
@@ -65,85 +62,121 @@
                     <br/>
 
                     <div class="row">
-                        <div class="col-md-3">
-                            <h6 class="text-info">SEQUENCE ID</h6>
-                            <h5> <%=order.getId() %> </h5>
-                            <br/>
-
-                            <h6 class="text-info">AUTO GENERATED ORDER NO</h6>
-                            <h5> <%=order.getOrderNo() %> </h5>
-                            <br/>
-
-                            <h6 class="text-info">MANUAL ORDER NO</h6>
-                            <h5> <%=order.getManualOrderNo() %> </h5>
-                            <br/>
-
-                            <h6 class="text-info">ORDER DATE</h6>
-                            <h5> <%=order.getOrderDate() %> </h5>
-                            <br/>
-
-                            <h6 class="text-info">TITLE</h6>
-                            <h5> <%=order.getTitle() %> </h5>
+                        <div class="col-md-6 p-2">
+                            <table class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>AUTO GENERATED ORDER NO</td>
+                                        <td><%=order.getOrderNo() %></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>MANUAL ORDER NO</td>
+                                        <td><%=order.getManualOrderNo() %></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>ORDER DATE</td>
+                                        <td><%=order.getOrderDate() %></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">4</th>
+                                        <td>NAME</td>
+                                        <td><%=order.getTitle() + ' ' + order.getName() %></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">5</th>
+                                        <td>ADDRESS</td>
+                                        <td><%=order.getAddress() %></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">6</th>
+                                        <td>RELIGION</td>
+                                        <td><%=order.getReligion() %></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">7</th>
+                                        <td>NIC NO</td>
+                                        <td><%=order.getNicNo() %></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">8</th>
+                                        <td>TELEPHONE NO</td>
+                                        <td><%=order.getTelephoneNo() %></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">9</th>
+                                        <td>DEAD PERSON NAME</td>
+                                        <td><%=order.getDeadPersonName() %></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="col-md-3">
-                            <h6 class="text-info">NAME</h6>
-                            <h5> <%=order.getName() %> </h5>
-                            <br/>
-
-                            <h6 class="text-info">ADDRESS</h6>
-                            <h5> <%=order.getAddress() %> </h5>
-                            <br/>
-
-                            <h6 class="text-info">RELIGION</h6>
-                            <h5> <%=order.getReligion() %> </h5>
-                            <br/>
-
-                            <h6 class="text-info">NIC NO</h6>
-                            <h5> <%=order.getNicNo() %> </h5>
-                            <br/>
-
-                            <h6 class="text-info">TELEPHONE NO</h6>
-                            <h5> <%=order.getTelephoneNo() %> </h5>
-                        </div>
-                        <div class="col-md-3">
-                            <h6 class="text-info">DEAD PERSON NAME</h6>
-                            <h5> <%=order.getDeadPersonName() %> </h5>
-                            <br/>
-
-                            <h6 class="text-info">FUNERAL DATE</h6>
-                            <h5> <%=order.getFuneralDate() %> </h5>
-                            <br/>
-
-                            <h6 class="text-info">CEMETERY</h6>
-                            <h5> <%=order.getCemetry() %> </h5>
-                            <br/>
-
-                            <h6 class="text-info">CREMATION OR BURRIAL</h6>
-                            <h5> <%=order.getCremationBurrial() %> </h5>
-                            <br/>
-
-                            <h6 class="text-info">BILL TO</h6>
-                            <h5> <%=order.getBillTo() %> </h5>
-                        </div>
-                        <div class="col-md-3">
-                            <h6 class="text-info">PACKAGE</h6>
-                            <h5> <%=aPackage %> </h5>
-                            <br/>
-
-                            <h6 class="text-info">PAY MODE</h6>
-                            <h5> <%=order.getPayMode() %> </h5>
-                            <br/>
-
-                            <h6 class="text-info">ORDER STATUS</h6>
-                            <h5> <%=order.getOrderStatus() %> </h5>
-                            <br/>
-
-                            <h6 class="text-info">BILL STATUS</h6>
-                            <h5> <%=order.getBillStatus() %> </h5>
-                            <br/>
-
-                            <h6 class="text-info">AMOUNT</h6>
-                            <h5> <%=order.getAmount() %> </h5>
+                        <div class="col-md-6 p-2">
+                            <table class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">10</th>
+                                        <td>FUNERAL DATE</td>
+                                        <td><%=order.getFuneralDate() %></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">11</th>
+                                        <td>CEMETERY</td>
+                                        <td><%=order.getCemetry() %></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">12</th>
+                                        <td>CREMATION OR BURRIAL</td>
+                                        <td><%=order.getCremationBurrial() %></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">13</th>
+                                        <td>BILL TO</td>
+                                        <td><%=order.getBillTo() %></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">14</th>
+                                        <td>PACKAGE</td>
+                                        <td><%=aPackage %></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">15</th>
+                                        <td>PAY MODE</td>
+                                        <td><%=order.getPayMode() %></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">16</th>
+                                        <td>ORDER STATUS</td>
+                                        <td><%=order.getOrderStatus() %></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">17</th>
+                                        <td>BILL STATUS</td>
+                                        <td><%=order.getBillStatus() %></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">18</th>
+                                        <td>AMOUNT</td>
+                                        <td><%=order.getAmount() %></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

@@ -29,4 +29,7 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
     List<Order> listAllCancelledOrders();
 
     List<Order> findByOrderNoContainingAndManualOrderNoContainingAndNameContainingAndNicNoContaining(String orderNo, String manualOrderNo, String name, String nicNo);
+
+    @Query(value = "SELECT * FROM orders ORDER BY id DESC LIMIT 1", nativeQuery = true)
+    Order findLastOrder();
 }

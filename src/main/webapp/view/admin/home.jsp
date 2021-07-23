@@ -24,8 +24,8 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-              <li class="nav-item active">
-                <a class="nav-link" href=<%=baseUrl + "/admin/home"%>>Home <span class="sr-only">(current)</span></a>
+              <li class="nav-item">
+                <a class="nav-link active" href=<%=baseUrl + "/admin/home"%>>Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href=<%=baseUrl + "/package/list"%>>Packages</a>
@@ -35,6 +35,9 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link" href=<%=baseUrl + "/pacNitem/list"%>>Package & Items</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href=<%=baseUrl + "/order/cancelOrder"%>>Cancel Order</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href=<%=baseUrl + "/order/adminDetails"%>>Order Details</a>

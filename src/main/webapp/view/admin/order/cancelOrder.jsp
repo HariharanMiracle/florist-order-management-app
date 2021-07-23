@@ -4,13 +4,11 @@
 <%@ page import="com.boralesgamuwa.florists.ordermanagementapp.model.Order"%>
 <html>
 <head>
-    <title>Order Details</title>
+    <title>Cancel Order</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body class="bg-light">
     <%
@@ -51,19 +49,22 @@
         </nav>
 
         <div class="p-5">
-            <h1>Order details</h1>
+            <input type="hidden" id="url" value="<%=baseUrl + "/order/cancelOrder" %>">
+
+            <h1>Cancel Order</h1>
             <hr/>
             <br/>
 
             <div class="row">
                 <div class="ml-5">
-                    <form method="post" action=<%=baseUrl + "/order/adminListFilter" %>>
+                    <form method="post" action=<%=baseUrl + "/order/listFilterCancelOrder" %>>
                         <div class="row">
                             <div><input type="text" class="form-control" id="orderNo" name="orderNo" placeholder="Order No"></div>
                             <div><input type="text" class="form-control" id="manualOrderNo" name="manualOrderNo" placeholder="Manual Order No"></div>
                             <div><input type="text" class="form-control" id="name" name="name" placeholder="Name"></div>
                             <div><input type="text" class="form-control" id="nicNo" name="nicNo" placeholder="Nic No"></div>
-                            <div><button type="submit" class="btn btn-info">Search</button></div>
+                            <div>&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-info">Search</button></div>
+                            <div>&nbsp;&nbsp;&nbsp;<button class="btn btn-info" onclick="location.reload()">Reload</button></div>
                         </div>
                     </form>
                 </div>
@@ -121,7 +122,19 @@
                                         %>
                                         <td><%= order.getAmount() %></td>
                                         <td>
-                                            <a href=<%= baseUrl + "/order/adminDetail/" + order.getId() %> type="button" class="btn btn-warning">View Order Details</a>
+                                            <%
+                                                if(order.getOrderStatus().equals("PROCESSING")){
+                                                    %>
+                                                        <button class="btn btn-warning" onclick="cancelOrder(<%= order.getId() %>)">Cancel Order</button>
+                                                    <%
+                                                }
+                                                else{
+                                                    %>
+                                                        <p class="text-danger">You can only cancel processing order</p>
+                                                    <%
+                                                }
+                                            %>
+
                                         </td>
                                     </tr>
                                 <%
@@ -135,3 +148,16 @@
     </div>
 </body>
 </html>
+<script>
+    function cancelOrder(id) {
+      var r = confirm("Do you want to cancel this order?");
+      if (r == true) {
+        var url = $('input#url').val() + "/" + id;
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("GET", url);
+        xhttp.send();
+      } else {
+        alert("Order not cancelled !!!");
+      }
+    }
+</script>

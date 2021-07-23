@@ -421,4 +421,15 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
+    public Order findLastOrder() {
+        try{
+            return orderRepository.findLastOrder();
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new Order();
+        }
+    }
+
 }

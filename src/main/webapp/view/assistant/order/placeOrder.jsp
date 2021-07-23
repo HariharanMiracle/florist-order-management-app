@@ -17,6 +17,7 @@
     <%
         final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
         List<Package> packageList = (List<Package>) request.getAttribute("packageList");
+        String lastManualOrderNumber = (String) request.getAttribute("lastManualOrderNumber");
     %>
     <input type="hidden" id="url1" value="<%= baseUrl %>"/>
     <div>
@@ -37,9 +38,6 @@
                 <a class="nav-link" href=<%=baseUrl + "/order/placeOrder"%>>Place Order <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href=<%=baseUrl + "/order/cancelOrder"%>>Cancel Order</a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link" href=<%=baseUrl + "/order/payBalance"%>>Pay Balance</a>
               </li>
             </ul>
@@ -58,21 +56,36 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
+                            <h6>Last entered manual order number: </h6>
+                            <input type="text" class="form-control placeOrderFields" id="lastManualOrderNo" name="lastManualOrderNo" placeholder="manual order number" value="<%= lastManualOrderNumber %>" readonly>
+                        </div>
+                        <div class="form-group">
                             <input type="text" class="form-control placeOrderFields" id="manualOrderNo" name="manualOrderNo" placeholder="Enter Manual Order No" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control placeOrderFields" id="title" name="title" placeholder="Enter Title" required>
+                            <select id="title" name="title" class="form-control">
+                                <option value="MR">MR</option>
+                                <option value="MRS">MRS</option>
+                                <option value="Master">Master</option>
+                                <option value="Miss">Miss</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control placeOrderFields" id="name" name="name" placeholder="Enter Name" required>
                         </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control placeOrderFields" id="address" name="address" placeholder="Enter Address" required>
-                        </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <input type="text" class="form-control placeOrderFields" id="religion" name="religion" placeholder="Enter Religion" required>
+                            <input type="text" class="form-control placeOrderFields" id="address" name="address" placeholder="Enter Address" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="religion" name="religion" class="form-control">
+                                <option value="Buddhist">Buddhist</option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="Roman Catholic">Roman Catholic</option>
+                                <option value="Non Roman Catholic">Non Roman Catholic</option>
+                                <option value="Other">Other</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control placeOrderFields" id="nicNo" name="nicNo" minlength="10" maxlength="12" placeholder="Enter Nic No" required>
@@ -80,11 +93,11 @@
                         <div class="form-group">
                             <input type="tel" class="form-control placeOrderFields" id="telephoneNo" maxlength="10" minlength="10" name="telephoneNo" placeholder="Enter Telephone No" required>
                         </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group">
                             <input type="text" class="form-control placeOrderFields" id="deadPersonName" name="deadPersonName" placeholder="Enter Dead Person Name" required>
                         </div>
-                    </div>
-                    <div class="col-md-3">
                         <div class="form-group">
                             <input type="date" class="form-control placeOrderFields" id="funeralDate" name="funeralDate" placeholder="Enter Funeral Date" required>
                         </div>
@@ -97,14 +110,15 @@
                                 <option value="BURRIAL">BURRIAL</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control placeOrderFields" id="billTo" name="billTo" placeholder="Enter Bill To" required>
-                        </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
+                            <input type="text" class="form-control placeOrderFields" id="billTo" name="billTo" placeholder="Enter Bill To" required>
+                        </div>
+                        <div class="form-group">
                             <select id="payMode" name="payMode" class="form-control">
                                 <option value="CREDIT">CREDIT</option>
+                                <option value="CARD">CARD</option>
                             </select>
                         </div>
                         <div class="form-group">

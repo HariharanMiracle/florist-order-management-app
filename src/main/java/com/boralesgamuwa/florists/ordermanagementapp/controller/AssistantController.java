@@ -37,58 +37,7 @@ public class AssistantController {
         ModelAndView modelAndView = new ModelAndView();
 
         try{
-            AdminDashboardData data = new AdminDashboardData();
-
-            data.setAllProfit(0);
-            data.setCurrentProfit(0);
-
-            data.setCompletedAllProfit(0);
-            data.setCompletedCurrentProfit(0);
-
-            data.setCancelledAllProfit(0);
-            data.setCancelledCurrentProfit(0);
-
-            data.setUnpaidAllProfit(0);
-            data.setUnpaidCurrentProfit(0);
-
-            List<Order> allOrders = orderService.listAllOrders();
-            List<Order> cancelledOrderList = orderService.listAllCancelledOrders();
-            List<Order> completedOrders = orderService.listAllCompletedOrders();
-            List<Order> unpaidOrders = orderService.listAllUnPaidOrders();
-
-            data.setAllOrdersCount(allOrders.size());
-            data.setCompletedAllOrdersCount(completedOrders.size());
-            data.setCancelledAllOrdersCount(cancelledOrderList.size());
-            data.setUnpaidAllOrdersCount(unpaidOrders.size());
-
-            for(Order order : completedOrders){
-                data.setAllProfit(data.getAllProfit() + order.getAmount());
-                data.setCompletedAllProfit(data.getCompletedAllProfit() + order.getAmount());
-
-                if(isInCurrentMonth(order.getOrderDate())){
-                    data.setCurrentProfit(data.getCurrentProfit() + order.getAmount());
-                    data.setCompletedCurrentProfit(data.getCompletedCurrentProfit() + order.getAmount());
-                }
-            }
-
-            for(Order order : cancelledOrderList){
-                data.setCancelledAllProfit(data.getCancelledAllProfit() + order.getAmount());
-
-                if(isInCurrentMonth(order.getOrderDate())){
-                    data.setCancelledCurrentProfit(data.getCancelledCurrentProfit() + order.getAmount());
-                }
-            }
-
-            for(Order order : unpaidOrders){
-                data.setUnpaidAllProfit(data.getUnpaidAllProfit() + order.getAmount());
-
-                if(isInCurrentMonth(order.getOrderDate())){
-                    data.setUnpaidCurrentProfit(data.getUnpaidCurrentProfit() + order.getAmount());
-                }
-            }
-
             modelAndView.setViewName("assistant/home");
-            modelAndView.addObject("data", data);
         }
         catch (Exception e){
             modelAndView.setViewName("error/page");
