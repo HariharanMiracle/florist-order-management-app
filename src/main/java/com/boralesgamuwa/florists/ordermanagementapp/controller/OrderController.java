@@ -247,6 +247,23 @@ public class OrderController {
         return modelAndView;
     }
 
+    @GetMapping("revertOrder/{id}")
+    public ModelAndView revertOrderById(@PathVariable int id){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+            orderService.revertOrder(id);
+            return new ModelAndView("redirect:" + baseUrl + "/order/cancelOrder");
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+        return modelAndView;
+    }
+
     @PostMapping("listFilterCancelOrder")
     public ModelAndView getCancelOrderDetailsFiltered(@RequestParam("orderNo") String orderNo,
                                                 @RequestParam("manualOrderNo") String manualOrderNo,
@@ -256,7 +273,7 @@ public class OrderController {
 
         try{
             modelAndView.addObject("orderList", orderService.filterOrders(orderNo, manualOrderNo, name, nicNo));
-            modelAndView.setViewName("assistant/order/cancelOrder");
+            modelAndView.setViewName("admin/order/cancelOrder");
         }
         catch (Exception e){
             modelAndView.setViewName("error/page");

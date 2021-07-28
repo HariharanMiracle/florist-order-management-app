@@ -54,79 +54,136 @@
 
             <div class="p-3">
                 <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <h6>Last entered manual order number: </h6>
-                            <input type="text" class="form-control placeOrderFields" id="lastManualOrderNo" name="lastManualOrderNo" placeholder="manual order number" value="<%= lastManualOrderNumber %>" readonly>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control placeOrderFields" id="manualOrderNo" name="manualOrderNo" placeholder="Enter Manual Order No" required>
-                        </div>
-                        <div class="form-group">
-                            <select id="title" name="title" class="form-control">
-                                <option value="MR">MR</option>
-                                <option value="MRS">MRS</option>
-                                <option value="Master">Master</option>
-                                <option value="Miss">Miss</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control placeOrderFields" id="name" name="name" placeholder="Enter Name" required>
-                        </div>
+                    <div class="col-md-6">
+                        <table class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Last entered manual order number</td>
+                                    <td><input type="text" class="form-control placeOrderFields" id="lastManualOrderNo" name="lastManualOrderNo" placeholder="manual order number" value="<%= lastManualOrderNumber %>" readonly></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Manual Order No</td>
+                                    <td><input type="text" class="form-control placeOrderFields" id="manualOrderNo" name="manualOrderNo" placeholder="Enter Manual Order No" required></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Title</td>
+                                    <td>
+                                        <select id="title" name="title" class="form-control">
+                                            <option value="MR">MR</option>
+                                            <option value="MRS">MRS</option>
+                                            <option value="Master">Master</option>
+                                            <option value="Miss">Miss</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4</th>
+                                    <td>Name</td>
+                                    <td><input type="text" class="form-control placeOrderFields" id="name" name="name" placeholder="Enter Name" required></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">5</th>
+                                    <td>Address</td>
+                                    <td><input type="text" class="form-control placeOrderFields" id="address" name="address" placeholder="Enter Address" required></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">6</th>
+                                    <td>Religion</td>
+                                    <td>
+                                        <select id="religion" name="religion" class="form-control">
+                                            <option value="Buddhist">Buddhist</option>
+                                            <option value="Hindu">Hindu</option>
+                                            <option value="Roman Catholic">Roman Catholic</option>
+                                            <option value="Non Roman Catholic">Non Roman Catholic</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">7</th>
+                                    <td>Nic No</td>
+                                    <td><input type="text" class="form-control placeOrderFields" id="nicNo" name="nicNo" minlength="10" maxlength="12" placeholder="Enter Nic No" required></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">8</th>
+                                    <td>Telephone No</td>
+                                    <td><input type="tel" class="form-control placeOrderFields" id="telephoneNo" maxlength="10" minlength="10" name="telephoneNo" placeholder="Enter Telephone No" required></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <input type="text" class="form-control placeOrderFields" id="address" name="address" placeholder="Enter Address" required>
-                        </div>
-                        <div class="form-group">
-                            <select id="religion" name="religion" class="form-control">
-                                <option value="Buddhist">Buddhist</option>
-                                <option value="Hindu">Hindu</option>
-                                <option value="Roman Catholic">Roman Catholic</option>
-                                <option value="Non Roman Catholic">Non Roman Catholic</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control placeOrderFields" id="nicNo" name="nicNo" minlength="10" maxlength="12" placeholder="Enter Nic No" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="tel" class="form-control placeOrderFields" id="telephoneNo" maxlength="10" minlength="10" name="telephoneNo" placeholder="Enter Telephone No" required>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <input type="text" class="form-control placeOrderFields" id="deadPersonName" name="deadPersonName" placeholder="Enter Dead Person Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="date" class="form-control placeOrderFields" id="funeralDate" name="funeralDate" placeholder="Enter Funeral Date" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control placeOrderFields" id="cemetry" name="cemetry" placeholder="Enter Cemetery" required>
-                        </div>
-                        <div class="form-group">
-                            <select id="cremationBurrial" name="cremationBurrial" class="form-control">
-                                <option value="CREMATION">CREMATION</option>
-                                <option value="BURRIAL">BURRIAL</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <input type="text" class="form-control placeOrderFields" id="billTo" name="billTo" placeholder="Enter Bill To" required>
-                        </div>
-                        <div class="form-group">
-                            <select id="payMode" name="payMode" class="form-control">
-                                <option value="CREDIT">CREDIT</option>
-                                <option value="CARD">CARD</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <input type="number" class="form-control placeOrderFields" id="advance" name="advance" placeholder="Enter payment advance" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="number" class="form-control placeOrderFields" id="balance" name="balance" placeholder="Enter payment balance" required>
-                        </div>
+                    <div class="col-md-6">
+                        <table class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Dead Person Name</td>
+                                    <td><input type="text" class="form-control placeOrderFields" id="deadPersonName" name="deadPersonName" placeholder="Enter Dead Person Name" required></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Funeral Date</td>
+                                    <td><input type="date" class="form-control placeOrderFields" id="funeralDate" name="funeralDate" placeholder="Enter Funeral Date" required></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Cemetery</td>
+                                    <td><input type="text" class="form-control placeOrderFields" id="cemetry" name="cemetry" placeholder="Enter Cemetery" required></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4</th>
+                                    <td>Cremation / Burrial</td>
+                                    <td>
+                                        <select id="cremationBurrial" name="cremationBurrial" class="form-control">
+                                            <option value="CREMATION">CREMATION</option>
+                                            <option value="BURRIAL">BURRIAL</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">5</th>
+                                    <td>Bill To</td>
+                                    <td><input type="text" class="form-control placeOrderFields" id="billTo" name="billTo" placeholder="Enter Bill To" required></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">6</th>
+                                    <td>Pay Mode</td>
+                                    <td>
+                                        <select id="payMode" name="payMode" class="form-control">
+                                            <option value="CREDIT">CREDIT</option>
+                                            <option value="CARD">CARD</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">7</th>
+                                    <td>Advance</td>
+                                    <td><input type="number" class="form-control placeOrderFields" id="advance" name="advance" placeholder="Enter payment advance" required></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">8</th>
+                                    <td>Balance</td>
+                                    <td><input type="number" class="form-control placeOrderFields" id="balance" name="balance" placeholder="Enter payment balance" required></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

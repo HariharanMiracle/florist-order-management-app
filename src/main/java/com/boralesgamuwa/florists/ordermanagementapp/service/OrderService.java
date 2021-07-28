@@ -25,4 +25,5 @@ public interface OrderService {
     List<Orderbill> listAllOrderbillByOrderId(int id);
     Order findLastOrder();
     List<Order> listOrdersBetweenDate(String startDate, String endDate);
+    boolean revertOrder(int orderId);
 }

@@ -48,6 +48,11 @@
             <h1 class="text-info">BORALESGAMUWA</h1>
             <h1>FLORISTS</h1>
         </div>
+        <div class="row">
+            <div class="col-md-12 pl-5">
+                <a href=<%=baseUrl + "/admin/home"%>>ADMIN</a>
+            </div>
+        </div>
     </div>
 </body>
 </html>

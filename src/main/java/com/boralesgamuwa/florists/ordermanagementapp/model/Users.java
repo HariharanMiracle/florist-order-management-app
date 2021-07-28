@@ -9,13 +9,9 @@ import javax.persistence.Id;
 
 @Data
 @Entity
-public class User {
+public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
     private String username;
     private String password;
-    private String name;
-    private String type;
-    private int active;
+    private int enabled;
 }

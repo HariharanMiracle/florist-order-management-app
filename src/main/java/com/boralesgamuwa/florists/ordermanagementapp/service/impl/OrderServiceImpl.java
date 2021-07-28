@@ -444,4 +444,23 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    /**
+     * Access: Assistant
+     * This function enables to revert an order
+     * */
+    @Override
+    public boolean revertOrder(int orderId) {
+        try{
+            Order order = orderRepository.findById(orderId).get();
+            if(order.getOrderStatus().equals("CANCELLED"))
+                order.setOrderStatus("PROCESSING");
+            orderRepository.save(order);
+
+            return true;
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return false;
+        }
+    }
 }

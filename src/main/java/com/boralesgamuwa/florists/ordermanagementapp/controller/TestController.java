@@ -1,14 +1,15 @@
 package com.boralesgamuwa.florists.ordermanagementapp.controller;
 
-import com.boralesgamuwa.florists.ordermanagementapp.config.AES;
 import com.boralesgamuwa.florists.ordermanagementapp.model.*;
 import com.boralesgamuwa.florists.ordermanagementapp.model.Package;
+import com.boralesgamuwa.florists.ordermanagementapp.repository.AuthoritiesRepository;
+import com.boralesgamuwa.florists.ordermanagementapp.repository.UserRepository;
 import com.boralesgamuwa.florists.ordermanagementapp.service.OrderService;
 import com.boralesgamuwa.florists.ordermanagementapp.service.PackageService;
 import com.boralesgamuwa.florists.ordermanagementapp.service.PackageitemService;
-import com.boralesgamuwa.florists.ordermanagementapp.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,10 +27,10 @@ import static com.boralesgamuwa.florists.ordermanagementapp.util.Constant.ERROR_
 public class TestController {
 
     @Autowired
-    AES aes;
+    UserRepository userRepository;
 
     @Autowired
-    UserService userService;
+    AuthoritiesRepository authoritiesRepository;
 
     @Autowired
     PackageitemService packageitemService;
@@ -39,6 +40,9 @@ public class TestController {
 
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * This is a sample endpoint
@@ -61,17 +65,20 @@ public class TestController {
     /**
      * This endpoint enables to create a user
      * */
-    @GetMapping("createTestUser/{username}/{name}/{type}/{password}")
-    public boolean createTEstUser(@PathVariable String username, @PathVariable String name, @PathVariable String type, @PathVariable String password){
+    @GetMapping("register/{username}/{type}/{password}")
+    public boolean register(@PathVariable String username, @PathVariable String type, @PathVariable String password){
         try{
-            User user = new User();
-            user.setUsername(username);
-            user.setPassword(aes.encrypt(password));
-            user.setType(type);
-            user.setName(name);
-            user.setActive(1);
+            Users users = new Users();
+            users.setUsername(username);
+            users.setPassword(passwordEncoder.encode(password));
+            users.setEnabled(1);
 
-            userService.saveUser(user);
+            Authorities authorities = new Authorities();
+            authorities.setUsername(username);
+            authorities.setAuthority(type);
+
+            userRepository.save(users);
+            authoritiesRepository.save(authorities);
 
             return true;
         }

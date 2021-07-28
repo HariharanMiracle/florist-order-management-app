@@ -35,11 +35,11 @@
               <li class="nav-item">
                 <a class="nav-link" href=<%=baseUrl + "/pacNitem/list"%>>Package & Items</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href=<%=baseUrl + "/order/cancelOrder"%>>Cancel Order</a>
-              </li>
               <li class="nav-item active">
-                <a class="nav-link" href=<%=baseUrl + "/order/adminDetails"%>>Order Details <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href=<%=baseUrl + "/order/cancelOrder"%>>Cancel Order <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href=<%=baseUrl + "/order/adminDetails"%>>Order Details</a>
               </li>
             </ul>
           </div>
@@ -49,7 +49,8 @@
         </nav>
 
         <div class="p-5">
-            <input type="hidden" id="url" value="<%=baseUrl + "/order/cancelOrder" %>">
+            <input type="hidden" id="url1" value="<%=baseUrl + "/order/cancelOrder" %>">
+            <input type="hidden" id="url2" value="<%=baseUrl + "/order/revertOrder" %>">
 
             <h1>Cancel Order</h1>
             <hr/>
@@ -128,6 +129,11 @@
                                                         <button class="btn btn-warning" onclick="cancelOrder(<%= order.getId() %>)">Cancel Order</button>
                                                     <%
                                                 }
+                                                else if(order.getOrderStatus().equals("CANCELLED")){
+                                                    %>
+                                                        <button class="btn btn-warning" onclick="revertOrder(<%= order.getId() %>)">Revert Order</button>
+                                                    <%
+                                                }
                                                 else{
                                                     %>
                                                         <p class="text-danger">You can only cancel processing order</p>
@@ -152,12 +158,24 @@
     function cancelOrder(id) {
       var r = confirm("Do you want to cancel this order?");
       if (r == true) {
-        var url = $('input#url').val() + "/" + id;
+        var url = $('input#url1').val() + "/" + id;
         const xhttp = new XMLHttpRequest();
         xhttp.open("GET", url);
         xhttp.send();
       } else {
         alert("Order not cancelled !!!");
+      }
+    }
+
+    function revertOrder(id) {
+      var r = confirm("Do you want to revert this order?");
+      if (r == true) {
+        var url = $('input#url2').val() + "/" + id;
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("GET", url);
+        xhttp.send();
+      } else {
+        alert("Order not reverted !!!");
       }
     }
 </script>

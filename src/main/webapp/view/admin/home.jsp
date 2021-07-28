@@ -95,6 +95,10 @@
                 <div class="col-md-6">
                     <div id="orderMonetary"></div>
                 </div>
+
+                <div class="col-md-12">
+                    <a href=<%=baseUrl + "/assistant/home"%>>ASSISTANT</a>
+                </div>
             </div>
         </div>
     </div>
