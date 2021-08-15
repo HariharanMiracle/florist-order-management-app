@@ -116,6 +116,8 @@
                                         <td><%= order.getAmount() %></td>
                                         <td>
                                             <a href=<%= baseUrl + "/order/detail/" + order.getId() %> type="button" class="btn btn-warning">View Order Details</a>
+                                            <a href=<%= baseUrl + "/order/print/order/" + order.getId() %> type="button" class="btn btn-info">Print Order</a>
+                                            <a href=<%= baseUrl + "/order/print/invoice/" + order.getId() %> type="button" class="btn btn-info">Print Invoice</a>
                                         </td>
                                     </tr>
                                 <%

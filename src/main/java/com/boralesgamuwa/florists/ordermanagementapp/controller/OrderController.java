@@ -17,6 +17,8 @@ import com.google.gson.Gson;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -440,6 +442,106 @@ public class OrderController {
             List<Packageitem> packageitemList = packageitemService.findPackageItemListByPackageId(String.valueOf(id));
             modelAndView.setViewName("assistant/order/placeOrderItems");
             modelAndView.addObject("packageitemList", packageitemList);
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+
+        return modelAndView;
+    }
+
+    @GetMapping("print/order/{orderId}")
+    public ModelAndView printOrder(@PathVariable int orderId){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            Order order = orderService.getOrderById(orderId);
+            List<Orderitem> orderitemList = orderService.listOrderItemByOrderId(orderId);
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            LocalDateTime now = LocalDateTime.now();
+            String currentDate = df.format(now);
+
+            modelAndView.setViewName("assistant/order/print-order");
+            modelAndView.addObject("order", order);
+            modelAndView.addObject("orderitemList", orderitemList);
+            modelAndView.addObject("currentDate", currentDate);
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+
+        return modelAndView;
+    }
+
+    @GetMapping("print/invoice/{orderId}")
+    public ModelAndView printInvoice(@PathVariable int orderId){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            Order order = orderService.getOrderById(orderId);
+            List<Orderitem> orderitemList = orderService.listOrderItemByOrderId(orderId);
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            LocalDateTime now = LocalDateTime.now();
+            String currentDate = df.format(now);
+
+            modelAndView.setViewName("assistant/order/print-invoice");
+            modelAndView.addObject("order", order);
+            modelAndView.addObject("orderitemList", orderitemList);
+            modelAndView.addObject("currentDate", currentDate);
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+
+        return modelAndView;
+    }
+
+    @GetMapping("printadmin/order/{orderId}")
+    public ModelAndView printOrderAdmin(@PathVariable int orderId){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            Order order = orderService.getOrderById(orderId);
+            List<Orderitem> orderitemList = orderService.listOrderItemByOrderId(orderId);
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            LocalDateTime now = LocalDateTime.now();
+            String currentDate = df.format(now);
+
+            modelAndView.setViewName("admin/order/print-order");
+            modelAndView.addObject("order", order);
+            modelAndView.addObject("orderitemList", orderitemList);
+            modelAndView.addObject("currentDate", currentDate);
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+
+        return modelAndView;
+    }
+
+    @GetMapping("printadmin/invoice/{orderId}")
+    public ModelAndView printInvoiceAdmin(@PathVariable int orderId){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            Order order = orderService.getOrderById(orderId);
+            List<Orderitem> orderitemList = orderService.listOrderItemByOrderId(orderId);
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            LocalDateTime now = LocalDateTime.now();
+            String currentDate = df.format(now);
+
+            modelAndView.setViewName("admin/order/print-invoice");
+            modelAndView.addObject("order", order);
+            modelAndView.addObject("orderitemList", orderitemList);
+            modelAndView.addObject("currentDate", currentDate);
         }
         catch (Exception e){
             modelAndView.setViewName("error/page");
