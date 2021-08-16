@@ -28,16 +28,22 @@
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href=<%=baseUrl + "/assistant/home"%>>Home</a>
+                <a class="nav-link" href=<%=baseUrl + "/admin/home"%>>Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href=<%=baseUrl + "/package/list"%>>Packages</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href=<%=baseUrl + "/item/list"%>>Items</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href=<%=baseUrl + "/pacNitem/list"%>>Package & Items</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href=<%=baseUrl + "/order/cancelOrder"%>>Cancel Order</a>
               </li>
               <li class="nav-item active">
-                <a class="nav-link" href=<%=baseUrl + "/order/details"%>>Order Details <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href=<%=baseUrl + "/order/placeOrder"%>>Place Order</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href=<%=baseUrl + "/order/payBalance"%>>Pay Balance</a>
+                <a class="nav-link" href=<%=baseUrl + "/order/adminDetails"%>>Order Details <span class="sr-only">(current)</span></a>
               </li>
             </ul>
           </div>
@@ -47,27 +53,26 @@
         </nav>
 
         <div class="p-5">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="float-left">
-                        <h1>Print Order</h1>
-                    </div>
-                </div>
-                <div class="col-md-6">
+            <div class="row" id="hide">
+                <div class="col-md-12">
                     <div class="float-right">
-                        <button class="btn btn-info" onclick="printDiv('print-view')">Print</button>
+                        <button class="btn btn-info" onclick="printDiv()">Print</button>
                     </div>
                 </div>
             </div>
-            <hr/>
-            <br/>
 
             <div id="print-view">
                 <div class="row p-3">
-                    <div class="col-md-6">
-                        <div class="float-left">
+                    <div class="col-md-1">
+                        <div class="float-right">
+                            <img src=<%=baseUrl + "/solid-logo.png"%> height="100px" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="float-left mt-2">
                             <h4>BORALESGAMUWA FLORISTS</h4>
-                            <p>1561 Appleview, Town Bakers Street, Chicago, IL 60411</p>
+                            <p>52, Dehiwala road,<br/>Boralesgamuwa.</p>
                         </div>
                     </div>
 
@@ -120,9 +125,9 @@
                 <table class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
-                            <th scope="col" style="background-color: #e8bb1a; color: #ffffff">No</th>
-                            <th scope="col" style="background-color: #e8bb1a; color: #ffffff">Description</th>
-                            <th scope="col" style="background-color: #e8bb1a; color: #ffffff">Amount</th>
+                            <th scope="col" style="color: #e8bb1a">No</th>
+                            <th scope="col" style="color: #e8bb1a">Description</th>
+                            <th scope="col" style="color: #e8bb1a">Amount</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -142,8 +147,8 @@
                         %>
                         <tr>
                             <td></td>
-                            <td style="background-color: #e8bb1a; color: #ffffff">Total</td>
-                            <td style="background-color: #e8bb1a; color: #ffffff"><%= order.getAmount() %></td>
+                            <td style="color: #e8bb1a"><b>Total</b></td>
+                            <td style="color: #e8bb1a"><b><%= order.getAmount() %></b></td>
                         </tr>
                     </tbody>
                 </table>
@@ -154,14 +159,8 @@
 </html>
 
 <script>
-    function printDiv(divName){
-        var printContents = document.getElementById(divName).innerHTML;
-        var originalContents = document.body.innerHTML;
-
-        document.body.innerHTML = printContents;
-
+    function printDiv(){
+        document.getElementById("hide").style.visibility = "hidden";
         window.print();
-
-        document.body.innerHTML = originalContents;
     }
 </script>
