@@ -484,6 +484,7 @@ public class OrderController {
         try{
             Order order = orderService.getOrderById(orderId);
             List<Orderitem> orderitemList = orderService.listOrderItemByOrderId(orderId);
+            List<Orderbill> paymentList = orderService.listAllOrderbillByOrderId(orderId);
             DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             LocalDateTime now = LocalDateTime.now();
             String currentDate = df.format(now);
@@ -491,6 +492,7 @@ public class OrderController {
             modelAndView.setViewName("assistant/order/print-invoice");
             modelAndView.addObject("order", order);
             modelAndView.addObject("orderitemList", orderitemList);
+            modelAndView.addObject("paymentList", paymentList);
             modelAndView.addObject("currentDate", currentDate);
         }
         catch (Exception e){
@@ -533,6 +535,7 @@ public class OrderController {
 
         try{
             Order order = orderService.getOrderById(orderId);
+            List<Orderbill> paymentList = orderService.listAllOrderbillByOrderId(orderId);
             List<Orderitem> orderitemList = orderService.listOrderItemByOrderId(orderId);
             DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             LocalDateTime now = LocalDateTime.now();
@@ -541,6 +544,7 @@ public class OrderController {
             modelAndView.setViewName("admin/order/print-invoice");
             modelAndView.addObject("order", order);
             modelAndView.addObject("orderitemList", orderitemList);
+            modelAndView.addObject("paymentList", paymentList);
             modelAndView.addObject("currentDate", currentDate);
         }
         catch (Exception e){

@@ -16,6 +16,7 @@
     <%
         final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
         List<Orderitem> orderitemList = (List<Orderitem>) request.getAttribute("orderitemList");
+        List<Orderbill> orderBillList = (List<Orderbill>) request.getAttribute("paymentList");
         Order order = (Order) request.getAttribute("order");
         String currentDate = (String) request.getAttribute("currentDate");
     %>
@@ -74,7 +75,7 @@
                     <div class="col-md-6">
                         <div class="float-right">
                             <h4 style="color: #e8bb1a">Invoice</h4>
-                            <p><%= order.getOrderNo() %></p>
+                            <p><%= order.getManualOrderNo() %></p>
                         </div>
                     </div>
                 </div>
@@ -117,11 +118,12 @@
 
                 <br/>
 
+                <h3>Item Details</h3>
                 <table class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
                             <th scope="col" style="background-color: #e8bb1a; color: #ffffff">No</th>
-                            <th scope="col" style="background-color: #e8bb1a; color: #ffffff">Item Name</th>
+                            <th scope="col" style="background-color: #e8bb1a; color: #ffffff">Description</th>
                             <th scope="col" style="background-color: #e8bb1a; color: #ffffff">Amount</th>
                         </tr>
                     </thead>
@@ -144,6 +146,42 @@
                             <td></td>
                             <td style="background-color: #e8bb1a; color: #ffffff">Total</td>
                             <td style="background-color: #e8bb1a; color: #ffffff"><%= order.getAmount() %></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <br/>
+
+                <h3>Payment Details</h3>
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="background-color: #e8bb1a; color: #ffffff">No</th>
+                            <th scope="col" style="background-color: #e8bb1a; color: #ffffff">Date</th>
+                            <th scope="col" style="background-color: #e8bb1a; color: #ffffff">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                            double tots = 0;
+                            int x = 1;
+
+                            for(Orderbill bill : orderBillList){
+                            %>
+                                <tr>
+                                    <th scope="row"><%= x %></th>
+                                    <td><%= bill.getDate() %></td>
+                                    <td><%= bill.getPayment() %></td>
+                                </tr>
+                            <%
+                                x++;
+                                tots += bill.getPayment();
+                            }
+                        %>
+                        <tr>
+                            <td></td>
+                            <td style="background-color: #e8bb1a; color: #ffffff">Total</td>
+                            <td style="background-color: #e8bb1a; color: #ffffff"><%= tots %></td>
                         </tr>
                     </tbody>
                 </table>

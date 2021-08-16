@@ -74,7 +74,7 @@
                     <div class="col-md-6">
                         <div class="float-right">
                             <h4 style="color: #e8bb1a">Order</h4>
-                            <p><%= order.getOrderNo() %></p>
+                            <p><%= order.getManualOrderNo() %></p>
                         </div>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                     <thead>
                         <tr>
                             <th scope="col" style="background-color: #e8bb1a; color: #ffffff">No</th>
-                            <th scope="col" style="background-color: #e8bb1a; color: #ffffff">Item Name</th>
+                            <th scope="col" style="background-color: #e8bb1a; color: #ffffff">Description</th>
                             <th scope="col" style="background-color: #e8bb1a; color: #ffffff">Amount</th>
                         </tr>
                     </thead>
