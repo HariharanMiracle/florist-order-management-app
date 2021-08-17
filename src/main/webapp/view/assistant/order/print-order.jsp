@@ -93,23 +93,23 @@
                         <p><%= currentDate %></p>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <h5 style="color: #e8bb1a">Customer Name</h5>
                         <p><%= order.getTitle() + " " + order.getName() %></p>
                     </div>
 
                     <div class="col-md-2">
-                        <h5 style="color: #e8bb1a">Order Number</h5>
+                        <h5 style="color: #e8bb1a">Order No</h5>
                         <p><%= order.getOrderNo() %></p>
                     </div>
 
-                    <div class="col-md-2">
-                        <h5 style="color: #e8bb1a">Manual Order Number</h5>
+                    <div class="col-md-3">
+                        <h5 style="color: #e8bb1a">Manual Order No</h5>
                         <p><%= order.getManualOrderNo() %></p>
                     </div>
 
                     <div class="col-md-2">
-                        <h5 style="color: #e8bb1a">NIC Number</h5>
+                        <h5 style="color: #e8bb1a">NIC No</h5>
                         <p><%= order.getNicNo() %></p>
                     </div>
                 </div>
@@ -146,6 +146,19 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <br/>
+
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <p>..................................................................</p>
+                        <p>Authorized By</p>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <p>..................................................................</p>
+                        <p>Customer Signature</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
