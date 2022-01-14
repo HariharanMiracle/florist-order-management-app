@@ -28,11 +28,20 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
     @Query(value="SELECT * FROM `orders` WHERE order_status = 'CANCELLED'", nativeQuery = true)
     List<Order> listAllCancelledOrders();
 
-    List<Order> findByOrderNoContainingAndManualOrderNoContainingAndNameContainingAndNicNoContaining(String orderNo, String manualOrderNo, String name, String nicNo);
+    List<Order> findByOrderNoContainingAndManualOrderNoContainingAndNameContainingAndNicNoContainingOrderByManualOrderNoAsc(String orderNo, String manualOrderNo, String name, String nicNo);
 
     @Query(value = "SELECT * FROM orders ORDER BY id DESC LIMIT 1", nativeQuery = true)
     Order findLastOrder();
 
+    @Query(value = "SELECT * FROM orders ORDER BY manual_order_no DESC LIMIT 1", nativeQuery = true)
+    Order findLastOrderOrderByManualOrderNo();
+
     @Query(value = "SELECT * FROM orders WHERE order_date BETWEEN ? AND ?", nativeQuery = true)
     List<Order> listOrdersBetweenDate(String startDate, String endDate);
+
+    @Query(value = "SELECT * FROM orders ORDER BY manual_order_no", nativeQuery = true)
+    List<Order> listAllOrderAndOrderByManualOrderNo();
+
+    @Query(value = "SELECT * FROM orders ORDER BY manual_order_no DESC", nativeQuery = true)
+    List<Order> listAllOrderAndOrderByManualOrderNoDesc();
 }

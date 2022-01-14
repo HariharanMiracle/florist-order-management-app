@@ -30,4 +30,5 @@ public class Order {
     private String orderStatus; /** PROCESSING, COMPLETED, CANCELLED */
     private String billStatus; /** PAID, UN_PAID */
     private double amount; /** Total amount to be paid */
+    private String pastDate;
 }

@@ -65,6 +65,16 @@
 
                             <h6 class="text-info">ORDER DATE</h6>
                             <h5> <%=order.getOrderDate() %> </h5>
+
+                            <%
+                                if(order.getPastDate() == null){
+                                    %><h5> <%=order.getOrderDate() %> </h5><%
+                                }
+                                else{
+                                    %><h5> <%=order.getPastDate() %> </h5><%
+                                }
+                            %>
+
                             <br/>
 
                             <h6 class="text-info">TITLE</h6>
@@ -104,10 +114,6 @@
                             <br/>
                         </div>
                         <div class="col-md-3">
-                            <h6 class="text-info">BILL TO</h6>
-                            <h5> <%=order.getBillTo() %> </h5>
-                            <br/>
-
                             <h6 class="text-info">PAY MODE</h6>
                             <h5> <%=order.getPayMode() %> </h5>
                             <br/>

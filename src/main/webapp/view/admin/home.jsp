@@ -50,6 +50,9 @@
         </nav>
 
         <div class="p-5">
+             <div class="text-right mr-5">
+             <a class="btn btn-primary"href=<%=baseUrl + "/assistant/home"%>>ASSISTANT</a>
+             </div>
             <h1>Statistics</h1>
             <div class="row">
                 <div class="col-md-3 p-3">
@@ -96,9 +99,7 @@
                     <div id="orderMonetary"></div>
                 </div>
 
-                <div class="col-md-12">
-                    <a href=<%=baseUrl + "/assistant/home"%>>ASSISTANT</a>
-                </div>
+
             </div>
         </div>
     </div>

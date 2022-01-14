@@ -41,6 +41,12 @@
             <a class="btn btn-dark" href=<%=baseUrl + "/logout"%>>Logout</a>
           </div>
         </nav>
+        <br/>
+        <div class="text-right mr-5">
+            <div class="col-md-12 pl-5">
+                <a class="btn btn-primary" href=<%=baseUrl + "/admin/home"%>>ADMIN</a>
+            </div>
+        </div>
 
         <div class="p-5 text-center">
             <img src=<%=baseUrl + "/solid-logo.png"%> height="300px" />
@@ -48,10 +54,7 @@
             <h1 class="text-info">BORALESGAMUWA</h1>
             <h1>FLORISTS</h1>
         </div>
-        <div class="row">
-            <div class="col-md-12 pl-5">
-                <a href=<%=baseUrl + "/admin/home"%>>ADMIN</a>
-            </div>
+
         </div>
     </div>
 </body>

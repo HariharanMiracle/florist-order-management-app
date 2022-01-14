@@ -91,7 +91,14 @@
                                     <tr>
                                         <th scope="row">3</th>
                                         <td>ORDER DATE</td>
-                                        <td><%=order.getOrderDate() %></td>
+                                        <%
+                                            if(order.getPastDate() == null){
+                                                %><td><%= order.getOrderDate() %></td><%
+                                            }
+                                            else{
+                                                %><td><%= order.getPastDate() %></td><%
+                                            }
+                                        %>
                                     </tr>
                                     <tr>
                                         <th scope="row">4</th>
@@ -153,31 +160,26 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">13</th>
-                                        <td>BILL TO</td>
-                                        <td><%=order.getBillTo() %></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">14</th>
                                         <td>PACKAGE</td>
                                         <td><%=aPackage %></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">15</th>
+                                        <th scope="row">14</th>
                                         <td>PAY MODE</td>
                                         <td><%=order.getPayMode() %></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">16</th>
+                                        <th scope="row">15</th>
                                         <td>ORDER STATUS</td>
                                         <td><%=order.getOrderStatus() %></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">17</th>
+                                        <th scope="row">16</th>
                                         <td>BILL STATUS</td>
                                         <td><%=order.getBillStatus() %></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">18</th>
+                                        <th scope="row">17</th>
                                         <td>AMOUNT</td>
                                         <td><%=order.getAmount() %></td>
                                     </tr>

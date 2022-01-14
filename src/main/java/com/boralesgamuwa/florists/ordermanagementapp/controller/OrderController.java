@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.boralesgamuwa.florists.ordermanagementapp.util.Constant.ERROR_LOG;
 
@@ -43,7 +44,7 @@ public class OrderController {
         ModelAndView modelAndView = new ModelAndView();
 
         try{
-            modelAndView.addObject("orderList", orderService.listAllOrders());
+            modelAndView.addObject("orderList", orderService.listAllOrderAndOrderByManualOrderNoDesc());
             modelAndView.setViewName("assistant/order/details");
         }
         catch (Exception e){
@@ -104,7 +105,7 @@ public class OrderController {
 
         try{
             String lastManualOrderNumber = "";
-            Order order = orderService.findLastOrder();
+            Order order = orderService.findLastOrderOrderByManualOrderNo();
             if(order.getManualOrderNo() == null || order.getManualOrderNo().isEmpty())
                 lastManualOrderNumber = "NONE";
             else
@@ -126,10 +127,6 @@ public class OrderController {
     @PostMapping("placeOrder")
     public ModelAndView placeOrder(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
-//        System.out.println("here");
-
-//        System.out.println(Data);
-
         try{
             JsonObject data = new Gson().fromJson(request.getReader(), JsonObject.class);
 
@@ -137,6 +134,22 @@ public class OrderController {
 
             String manualOrderNo = data.get("manualOrderNo").getAsString();
             order.setManualOrderNo(manualOrderNo);
+
+            //check manual order no
+            List<Order> orderList = orderService.listAllOrders();
+            if(!orderList.isEmpty()) {
+                List<String> manualOrderNumberList = new ArrayList<>();
+                orderList.stream().map(
+                        orderObj -> {
+                            manualOrderNumberList.add(orderObj.getManualOrderNo());
+                            return orderObj;
+                        }
+                ).collect(Collectors.toList());
+
+                if (manualOrderNumberList.contains(manualOrderNo)) {
+                    throw new Exception("Manual Order Number Already Used");
+                }
+            }
 
             String title = data.get("title").getAsString();
             order.setTitle(title);
@@ -162,14 +175,17 @@ public class OrderController {
             String funeralDate = data.get("funeralDate").getAsString();
             order.setFuneralDate(funeralDate);
 
+            String pastDate = data.get("pastDate").getAsString();
+            if(pastDate.isEmpty())
+                order.setPastDate(null);
+            else
+                order.setPastDate(pastDate);
+
             String cemetry = data.get("cemetry").getAsString();
             order.setCemetry(cemetry);
 
             String cremationBurrial = data.get("cremationBurrial").getAsString();
             order.setCremationBurrial(cremationBurrial);
-
-            String billTo = data.get("billTo").getAsString();
-            order.setBillTo(billTo);
 
             String payMode = data.get("payMode").getAsString();
             order.setPayMode(payMode);
@@ -179,7 +195,7 @@ public class OrderController {
 
             double advance = Double.parseDouble(data.get("advance").getAsString());
 
-            double balance = Double.parseDouble( data.get("balance").getAsString());
+            double balance = 0;
 
             JsonArray items = data.get("Item").getAsJsonArray();
 
@@ -221,7 +237,7 @@ public class OrderController {
         ModelAndView modelAndView = new ModelAndView();
 
         try{
-            modelAndView.addObject("orderList", orderService.listAllOrders());
+            modelAndView.addObject("orderList", orderService.listAllOrderAndOrderByManualOrderNo());
             modelAndView.setViewName("admin/order/cancelOrder");
         }
         catch (Exception e){
@@ -290,7 +306,7 @@ public class OrderController {
         ModelAndView modelAndView = new ModelAndView();
 
         try{
-            modelAndView.addObject("orderList", orderService.listAllOrders());
+            modelAndView.addObject("orderList", orderService.listAllOrderAndOrderByManualOrderNo());
             modelAndView.setViewName("assistant/order/payBalance");
         }
         catch (Exception e){
@@ -373,7 +389,7 @@ public class OrderController {
         ModelAndView modelAndView = new ModelAndView();
 
         try{
-            modelAndView.addObject("orderList", orderService.listAllOrders());
+            modelAndView.addObject("orderList", orderService.listAllOrderAndOrderByManualOrderNoDesc());
             modelAndView.setViewName("admin/order/details");
         }
         catch (Exception e){
@@ -431,6 +447,24 @@ public class OrderController {
             modelAndView.addObject("error", e.getMessage());
             log.error(ERROR_LOG, e);
         }
+        return modelAndView;
+    }
+
+    @GetMapping("adminGetOrderItems/{id}")
+    public ModelAndView adminGetOrderItems(@PathVariable int id){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            List<Packageitem> packageitemList = packageitemService.findPackageItemListByPackageId(String.valueOf(id));
+            modelAndView.setViewName("admin/order/placeOrderItems");
+            modelAndView.addObject("packageitemList", packageitemList);
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+
         return modelAndView;
     }
 
@@ -554,5 +588,187 @@ public class OrderController {
         }
 
         return modelAndView;
+    }
+
+    @GetMapping("adminUpdateOrder/{orderId}")
+    public ModelAndView adminUpdateOrderView(@PathVariable int orderId){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            Order order = orderService.getOrderById(orderId);
+            List<Orderbill> paymentList = orderService.listAllOrderbillByOrderId(orderId);
+            List<Orderitem> orderitemList = orderService.listOrderItemByOrderId(orderId);
+            List<Package> packageList = packageService.listAllPackages();
+            Package oldPackage = packageService.getPackageById(order.getPackageId());
+            List<Orderbill> orderbillList = orderService.listAllOrderbillByOrderId(orderId);
+
+            double advance = 0;
+            double notAdvance = 0;
+
+            for(Orderbill orderbill : orderbillList){
+                if(orderbill.getType().equals("ADVANCE"))
+                    advance += orderbill.getPayment();
+                else
+                    notAdvance += orderbill.getPayment();
+            }
+
+            modelAndView.addObject("packageList", packageList);
+            modelAndView.setViewName("admin/order/update");
+            modelAndView.addObject("order", order);
+            modelAndView.addObject("orderitemList", orderitemList);
+            modelAndView.addObject("paymentList", paymentList);
+            modelAndView.addObject("oldPackage", oldPackage);
+            modelAndView.addObject("advance", advance);
+            modelAndView.addObject("notAdvance", notAdvance);
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+
+        return modelAndView;
+    }
+
+    @PostMapping("adminUpdateOrder")
+    public ModelAndView updateOrder(HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try{
+            final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+
+            Order order = new Order();
+
+            JsonObject data = new Gson().fromJson(request.getReader(), JsonObject.class);
+            int id = Integer.parseInt(data.get("id").getAsString());
+            order.setId(id);
+
+            Order pastOrder = orderService.getOrderById(id);
+
+            String orderNo = data.get("orderNo").getAsString();
+            order.setOrderNo(orderNo);
+
+            String manualOrderNo = data.get("manualOrderNo").getAsString();
+            order.setManualOrderNo(manualOrderNo);
+
+            order.setOrderDate(pastOrder.getOrderDate());
+
+            String title = data.get("title").getAsString();
+            order.setTitle(title);
+
+            String name = data.get("name").getAsString();
+            order.setName(name);
+
+            String address = data.get("address").getAsString();
+            order.setAddress(address);
+
+            String religion = data.get("religion").getAsString();
+            order.setReligion(religion);
+
+            String nicNo = data.get("nicNo").getAsString();
+            order.setNicNo(nicNo);
+
+            String telephoneNo = data.get("telephoneNo").getAsString();
+            order.setTelephoneNo(telephoneNo);
+
+            String deadPersonName = data.get("deadPersonName").getAsString();
+            order.setDeadPersonName(deadPersonName);
+
+            String funeralDate = data.get("funeralDate").getAsString();
+            order.setFuneralDate(funeralDate);
+
+            String pastDate = data.get("pastDate").getAsString();
+            if(pastDate.isEmpty())
+                order.setPastDate(null);
+            else
+                order.setPastDate(pastDate);
+
+            String cemetry = data.get("cemetry").getAsString();
+            order.setCemetry(cemetry);
+
+            String cremationBurrial = data.get("cremationBurrial").getAsString();
+            order.setCremationBurrial(cremationBurrial);
+
+            String payMode = data.get("payMode").getAsString();
+            order.setPayMode(payMode);
+
+            int packageId = Integer.parseInt(data.get("packageId").getAsString());
+
+            double amount = Double.parseDouble(data.get("amount").getAsString());
+            order.setAmount(amount);
+
+            String billStatus = data.get("billStatus").getAsString();
+            order.setBillStatus(billStatus);
+
+            order.setOrderStatus(pastOrder.getOrderStatus());
+
+            order.setBillStatus(pastOrder.getBillStatus());
+
+            JsonArray items = data.get("Item").getAsJsonArray();
+
+            List<Orderitem> orderitemList = new ArrayList<>();
+
+            if(packageId == 0){
+                /** Do not change past package details */
+                order.setPackageId(pastOrder.getPackageId());
+                order.setAmount(pastOrder.getAmount());
+
+                /** Update basic order details */
+                orderService.updateOrder(order);
+            }
+            else{
+                /** Change past package details */
+                order.setPackageId(packageId);
+
+                for(JsonElement obj : items){
+                    System.out.println(obj.toString());
+                    String val = obj.toString();
+                    String[] splitVal = val.split("\"");
+
+                    Orderitem orderitem = new Orderitem();
+                    orderitem.setAdjustedAmount(Double.parseDouble(splitVal[3]));
+                    orderitem.setItemId(Integer.parseInt(splitVal[1]));
+                    orderitemList.add(orderitem);
+                }
+
+                double advance = Double.parseDouble(data.get("advance").getAsString());
+                double notAdvance = Double.parseDouble(data.get("notAdvance").getAsString());
+
+                log.info("orderitemList: " + orderitemList.toString());
+                log.info("advance: " + advance);
+                log.info("notAdvance: " + notAdvance);
+
+                /** Update basic order details and package details */
+                orderService.updateOrderAndChangePackage(order, orderitemList, advance, notAdvance);
+            }
+
+            log.info("Order: " + order.toString());
+
+            return new ModelAndView("redirect:" + baseUrl + "/order/adminDetails");
+        }
+        catch (Exception e){
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+
+        return modelAndView;
+    }
+
+    @GetMapping("isValidManualOrderNumber/{orderNo}")
+    public String isValidManualOrderNumber(@PathVariable String orderNo){
+
+        try{
+            Order order = orderService.getOrderByManualOrderId(orderNo);
+            if(order == null)
+                return "Manual order number is valid";
+            else
+                return "Manual order number is not valid";
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return "Something went wrong";
+        }
+
     }
 }

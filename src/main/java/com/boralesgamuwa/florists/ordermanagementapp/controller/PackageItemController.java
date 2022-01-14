@@ -95,6 +95,31 @@ public class PackageItemController {
         return modelAndView;
     }
 
+    @PostMapping("modifyRemove/{packId}")
+    public ModelAndView modifyRemove(@PathVariable String packId, @RequestBody String[] newItemList) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        try {
+            packitmService.removePackItems(newItemList,packId);
+
+            List<Packageitem> itemsInPack = packageitemService.findPackageItemListByPackageId(packId);
+            List<Packageitem> itemsNotInPack = packageitemService.findPackageItemListNotInPackage(packId);
+            Package pack = packageService.getPackageById(Integer.parseInt(packId));
+
+            modelAndView.setViewName("admin/packdetails/edit");
+            modelAndView.addObject("itemsInPack", itemsInPack);
+            modelAndView.addObject("itemsNotInPack", itemsNotInPack);
+            modelAndView.addObject("pack", pack);
+
+        } catch (Exception e) {
+            modelAndView.setViewName("error/page");
+            modelAndView.addObject("error", e.getMessage());
+            log.error(ERROR_LOG, e);
+        }
+
+        return modelAndView;
+    }
+
     @PostMapping("search")
     public ModelAndView search(@RequestParam("name") String name){
         ModelAndView modelAndView = new ModelAndView();

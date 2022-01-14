@@ -90,7 +90,14 @@
                                         <th scope="row"><%= i %></th>
                                         <td><%= order.getOrderNo() %></td>
                                         <td><%= order.getManualOrderNo() %></td>
-                                        <td><%= order.getOrderDate() %></td>
+                                        <%
+                                            if(order.getPastDate() == null){
+                                                %><td><%= order.getOrderDate() %></td><%
+                                            }
+                                            else{
+                                                %><td><%= order.getPastDate() %></td><%
+                                            }
+                                        %>
                                         <td><%= order.getName() %></td>
                                         <td><%= order.getNicNo() %></td>
                                         <td><%= order.getTelephoneNo() %></td>

@@ -403,7 +403,7 @@ public class OrderServiceImpl implements OrderService {
                 nicNo = "";
             }
 
-            return orderRepository.findByOrderNoContainingAndManualOrderNoContainingAndNameContainingAndNicNoContaining(orderNo, manualOrderNo, name, nicNo);
+            return orderRepository.findByOrderNoContainingAndManualOrderNoContainingAndNameContainingAndNicNoContainingOrderByManualOrderNoAsc(orderNo, manualOrderNo, name, nicNo);
         }
         catch (Exception e){
             log.error(ERROR_LOG, e);
@@ -430,6 +430,19 @@ public class OrderServiceImpl implements OrderService {
         catch (Exception e){
             log.error(ERROR_LOG, e);
             return new Order();
+        }
+    }
+
+    @Override
+    public Order findLastOrderOrderByManualOrderNo() {
+        try{
+            return orderRepository.findLastOrderOrderByManualOrderNo();
+        }
+        catch (Exception e){
+            Order order = new Order();
+            order.setManualOrderNo("no order");
+            log.error(ERROR_LOG, e);
+            return order;
         }
     }
 
@@ -461,6 +474,106 @@ public class OrderServiceImpl implements OrderService {
         catch (Exception e){
             log.error(ERROR_LOG, e);
             return false;
+        }
+    }
+
+    @Override
+    public List<Order> listAllOrderAndOrderByManualOrderNo() {
+        try{
+            List<Order> orderList = orderRepository.listAllOrderAndOrderByManualOrderNo();
+            return orderList;
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public boolean updateOrder(Order order) {
+        try{
+            orderRepository.save(order);
+            return true;
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateOrderAndChangePackage(Order order, List<Orderitem> orderitemList, double advance, double balance) {
+        try{
+            if(order.getAmount() == (advance + balance)){
+                order.setOrderStatus("COMPLETED");
+                order.setBillStatus("PAID");
+            }
+            else{
+                order.setOrderStatus("PROCESSING");
+                order.setBillStatus("UN_PAID");
+            }
+            orderRepository.save(order);
+
+            /** Delete all orderbill */
+            List<Orderbill> orderbillList = listAllOrderbillByOrderId(order.getId());
+            for(Orderbill orderbill : orderbillList){
+                orderbillRepository.delete(orderbill);
+            }
+
+            /** Save all new orderbill */
+            Orderbill advanceOB = new Orderbill();
+            Orderbill notAdvanceOB = new Orderbill();
+
+            advanceOB.setId(0);
+            advanceOB.setOrderNo(order.getId());
+            advanceOB.setPayment(advance);
+            advanceOB.setDate(order.getOrderDate());
+            advanceOB.setType("ADVANCE");
+
+            notAdvanceOB.setId(0);
+            notAdvanceOB.setOrderNo(order.getId());
+            notAdvanceOB.setPayment(balance);
+            notAdvanceOB.setDate(order.getOrderDate());
+            notAdvanceOB.setType("NOT_ADVANCE");
+
+            if(advanceOB.getPayment() != 0)
+                orderbillRepository.save(advanceOB);
+
+            if(notAdvanceOB.getPayment() != 0)
+                orderbillRepository.save(notAdvanceOB);
+
+            /** Delete all orderItem */
+            List<Orderitem> orderitemList1 = listOrderItemByOrderId(order.getId());
+            for(Orderitem orderitem : orderitemList1){
+                orderitemRepository.delete(orderitem);
+            }
+
+            /** Save all new orderItem */
+            for(Orderitem orderitem : orderitemList){
+                Packageitem item = packageitemService.findItemById(orderitem.getItemId());
+                orderitem.setName(item.getItemname());
+                orderitem.setActualAmount(item.getAmount());
+                orderitem.setOrderId(order.getId());
+            }
+            orderitemRepository.saveAll(orderitemList);
+
+            return true;
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return false;
+        }
+    }
+
+    @Override
+    public List<Order> listAllOrderAndOrderByManualOrderNoDesc() {
+        try{
+            List<Order> orderList = orderRepository.listAllOrderAndOrderByManualOrderNoDesc();
+            return orderList;
+        }
+        catch (Exception e){
+            log.error(ERROR_LOG, e);
+            return new ArrayList<>();
         }
     }
 }

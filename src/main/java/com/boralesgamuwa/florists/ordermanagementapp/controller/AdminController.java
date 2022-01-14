@@ -44,7 +44,7 @@ public class AdminController {
             data.setUnpaidAllProfit(0);
             data.setUnpaidCurrentProfit(0);
 
-            List<Order> allOrders = orderService.listAllOrders();
+            List<Order> allOrders = orderService.listAllOrderAndOrderByManualOrderNo();
             List<Order> cancelledOrderList = orderService.listAllCancelledOrders();
             List<Order> completedOrders = orderService.listAllCompletedOrders();
             List<Order> unpaidOrders = orderService.listAllUnPaidOrders();

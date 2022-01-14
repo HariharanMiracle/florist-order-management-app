@@ -68,7 +68,8 @@
                     <div class="border border-primary p-3" style="border-radius: 10px">
                         <div class="d-flex justify-content-center"><h4>Package Items - <%=pack.getName()%></h4></div>
                         </br>
-
+                        <form method="post" action=<%=baseUrl + "/pacNitem/modifyRemove/"+pack.getId() %> >
+                        <input type="hidden" id="url2" value="<%=baseUrl + "/pacNitem/modifyRemove/"+pack.getId() %> ">
                         <table class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
@@ -76,6 +77,7 @@
                                     <th scope="col">Item Id</th>
                                     <th scope="col">Item Name</th>
                                     <th scope="col">Amount</th>
+                                    <th scope="col">Remove</th>
                                 </tr>
                             </thead>
 
@@ -92,6 +94,7 @@
                                             <td><%= inPack.getId() %></td>
                                             <td><%= inPack.getItemname() %></td>
                                             <td><%= inPack.getAmount() %></td>
+                                            <td><input type="checkbox" class="checkbox" name="removeItems" id="<%=inPack.getId()%>" value="<%=inPack.getId()%>"/></td>
                                         </tr>
                             <%
                                         total+= inPack.getAmount();
@@ -106,9 +109,13 @@
                             %>
                             </tbody>
                         </table>
-
+                        </form>
                         <div class="alert alert-secondary d-flex justify-content-center" >
                             <h4> Total : <%=total%></h4>
+                        </div>
+
+                        <div class="d-flex justify-content-center" >
+                            <button id="submit2" type="button" class="btn btn-primary">Remove Items</button>
                         </div>
                     </div>
                 </div>
@@ -126,7 +133,7 @@
                                     <th scope="col">Item Id</th>
                                     <th scope="col">Item Name</th>
                                     <th scope="col">Item Amount</th>
-                                    <th scope="col">Yes/No</th>
+                                    <th scope="col">Add</th>
                                 </tr>
                                 </thead>
 
@@ -163,7 +170,7 @@
 
                             %>
                             <div class="d-flex justify-content-center" >
-                                <button id="submit" type="button" class="btn btn-primary">Save Changes</button>
+                                <button id="submit" type="button" class="btn btn-primary">Add Items</button>
                             </div>
                             <%
                                 }
@@ -191,7 +198,7 @@
                 }
             });
         if (newItemList.length === 0) {
-            alert("Please select at least one item to save!")
+            alert("Please select at least one item to add!")
         } else {
             $.ajax({
                 type: "POST",
@@ -207,5 +214,31 @@
 
         }
     });
+
+    $('#submit2').click(function() {
+            var newItemList = [];
+
+                $('input[name=removeItems]').each(function () {
+                    if ($(this).prop('checked')) {
+                        newItemList.push($(this).val())
+                    }
+                });
+            if (newItemList.length === 0) {
+                alert("Please select at least one item to remove!")
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: $('input#url2').val(),
+                    contentType: 'application/json',
+                    data: JSON.stringify(newItemList),
+                    success: function (data) {
+                        window.location.reload();
+                    }, error: function (data) {
+                        window.location.reload();
+                    }
+                });
+
+            }
+        });
 </script>
 </html>

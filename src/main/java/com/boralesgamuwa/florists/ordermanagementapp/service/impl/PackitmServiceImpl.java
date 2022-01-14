@@ -68,4 +68,38 @@ public class PackitmServiceImpl implements PackitmService {
             return false;
         }
     }
+
+    @Override
+    public boolean removePackItems(String[] newItemList, String packId) {
+        List<Packitm> packitmList = new ArrayList<>();
+
+        for (String itemId : newItemList) {
+            packitmList.add(packitmRepository.findPackItemByPackageIdAndItemId(packId, itemId));
+        }
+
+        try {
+            double total;
+            int packageId = packitmList.get(0).getPackageid();
+            Package aPackage = packageRepository.findById(packageId).get();
+
+            total = aPackage.getAmount();
+            for (Packitm obj : packitmList) {
+                Packageitem packageitem = packageitemRepository.findById(obj.getPackageitemid()).get();
+                total -= packageitem.getAmount();
+            }
+
+            aPackage.setAmount(total);
+
+            packageService.editPackage(aPackage);
+
+            /** Remove packNitem */
+            for (Packitm obj : packitmList) {
+                packitmRepository.delete(obj);
+            }
+            return true;
+        } catch (Exception e) {
+            log.error(ERROR_LOG, e);
+            return false;
+        }
+    }
 }

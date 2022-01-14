@@ -58,20 +58,23 @@
 
             <div id="print-view">
                 <div class="row p-3">
-                    <div class="col-md-1">
+                    <div class="col-md-2">
                         <div class="float-right">
-                            <img src=<%=baseUrl + "/solid-logo.png"%> height="100px" />
+                            <img src=<%=baseUrl + "/solid-logo.png"%> height="150px" />
                         </div>
                     </div>
 
-                    <div class="col-md-5">
+                    <div class="col-md-7">
                         <div class="float-left mt-2">
-                            <h4>BORALESGAMUWA FLORISTS</h4>
-                            <p>52, Dehiwala road,<br/>Boralesgamuwa.</p>
+                              <h3>BORALESGAMUWA FUNERAL DIRECTORS</h3></br>
+                              <h5>Hotline  : 0112 509 506 / 0112 545 922 </h5>
+                              <h5>Mobile   : 0777 719 583 / 0772 509 506 </h5>
+                              <h5>Address  : 75, Dehiwala Road,Boralesgamuwa.</h5>
+                              <h5>E-mail   : boralesgamuwafuneraldirectors@gmail.com </h5>
                         </div>
                     </div>
-
-                    <div class="col-md-6">
+                    <hr size = "20">
+                    <div class="col-md-3">
                         <div class="float-right mt-2">
                             <h4 style="color: #e8bb1a">Invoice</h4>
                             <p><%= order.getManualOrderNo() %></p>
@@ -80,10 +83,10 @@
                 </div>
 
                 <br/>
-
+                <hr size="20">
                 <div class="p-3">
                     <h5 style="color: #e8bb1a"><b>Bill To:</b></h5>
-                    <p><%= order.getBillTo() %></p>
+                    <p><%= order.getTitle() + " " + order.getName() + "<br/>" + order.getAddress() %></p>
                 </div>
 
                 <br/>
@@ -95,8 +98,8 @@
                     </div>
 
                     <div class="col-md-3">
-                        <h5 style="color: #e8bb1a">Customer Name</h5>
-                        <p><%= order.getTitle() + " " + order.getName() %></p>
+                        <h5 style="color: #e8bb1a">Dead Person's Name</h5>
+                        <p><%= order.getDeadPersonName() %></p>
                     </div>
 
                     <div class="col-md-2">

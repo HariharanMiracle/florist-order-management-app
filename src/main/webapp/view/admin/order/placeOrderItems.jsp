@@ -32,9 +32,18 @@
         </div>
         <div class="col-md-2">
             <input type="number" class="form-control placeOrderFields" id="advance" name="advance" placeholder="Enter Advance" onkeyup="changeBalance()" required>
+            <span class="text-danger">If no advance is paid, please insert '0'</span>
+        </div>
+        <div class="col-md-2">
+            <input type="number" class="form-control placeOrderFields" id="notAdvance" name="notAdvance" placeholder="Enter Not Advance" onkeyup="changeBalance()" required>
+            <span class="text-danger">If no not-advance is paid, please insert '0'</span>
         </div>
         <div class="col-md-2 mt-2">
             <h6>Balance: <span id="balance_display"><%= tot %></span></h6>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-info" onclick="addAdvanceAndNotAdvance()">Load Bill Details</button>
+            <span class="text-danger">Clicking this button loads the previous advance and not advance</span>
         </div>
     </div>
 </div>

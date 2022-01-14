@@ -55,7 +55,7 @@
             <hr/>
             <br/>
 
-            <div class="row">
+            <div class="row" id="hide1">
                 <div class="ml-5">
                     <form method="post" action=<%=baseUrl + "/order/adminListFilter" %>>
                         <div class="row">
@@ -68,6 +68,7 @@
                             <div><input type="date" class="form-control" id="endDate" name="endDate" placeholder="End Date"></div>
 
                             <div><button type="submit" class="btn btn-info">Search</button></div>
+                            <div><button type="submit" class="btn btn-info" onclick="printDiv()">Generate Report</button></div>
                         </div>
                     </form>
                 </div>
@@ -87,13 +88,16 @@
                             <th scope="col">Order Status</th>
                             <th scope="col">Bill Status</th>
                             <th scope="col">Total Amount</th>
-                            <th scope="col">Operations</th>
+                            <th id="hide2" scope="col">Operations</th>
                         </tr>
                     </thead>
                     <tbody>
                         <%
                             int i = 1;
                             double tot = 0;
+                            double completedTot = 0;
+                            double canceledTot = 0;
+                            double processTot = 0;
                             for(Order order : orderList){
                                 tot += order.getAmount();
                                 %>
@@ -101,19 +105,31 @@
                                         <th scope="row"><%= i %></th>
                                         <td><%= order.getOrderNo() %></td>
                                         <td><%= order.getManualOrderNo() %></td>
-                                        <td><%= order.getOrderDate() %></td>
+
+                                        <%
+                                            if(order.getPastDate() == null){
+                                                %><td><%= order.getOrderDate() %></td><%
+                                            }
+                                            else{
+                                                %><td><%= order.getPastDate() %></td><%
+                                            }
+                                        %>
+
                                         <td><%= order.getName() %></td>
                                         <td><%= order.getNicNo() %></td>
                                         <td><%= order.getTelephoneNo() %></td>
                                         <%
                                             if(order.getOrderStatus().equals("PROCESSING")){
-                                                %><td class="bg-danger text-white">PROCESSING</td><%
+                                                processTot += order.getAmount();
+                                                %><td class="bg-danger"><b>PROCESSING</b></td><%
                                             }
                                             else if(order.getOrderStatus().equals("COMPLETED")){
+                                                completedTot += order.getAmount();
                                                 %><td class="bg-light">COMPLETED</td><%
                                             }
                                             else{
-                                                %><td class="bg-success text-white">CANCELLED</td><%
+                                                canceledTot += order.getAmount();
+                                                %><td class="bg-success"><b>CANCELLED</b></td><%
                                             }
                                         %>
                                         <%
@@ -121,12 +137,13 @@
                                                 %><td class="bg-light">PAID</td><%
                                             }
                                             else{
-                                                %><td class="bg-danger text-white">UN PAID</td><%
+                                                %><td class="bg-danger"><b>UN PAID</b></td><%
                                             }
                                         %>
                                         <td><%= order.getAmount() %></td>
-                                        <td>
+                                        <td name="hide3">
                                             <a href=<%= baseUrl + "/order/adminDetail/" + order.getId() %> type="button" class="btn btn-warning">View Order Details</a>
+                                            <a href=<%= baseUrl + "/order/adminUpdateOrder/" + order.getId() %> type="button" class="btn btn-warning">Update Order</a>
                                             <a href=<%= baseUrl + "/order/printadmin/order/" + order.getId() %> type="button" class="btn btn-info">Print Order</a>
                                             <a href=<%= baseUrl + "/order/printadmin/invoice/" + order.getId() %> type="button" class="btn btn-info">Print Invoice</a>
                                         </td>
@@ -139,8 +156,25 @@
                 </table>
                 <br/>
                 <h6>Total Order Amount: <%= tot %></h6>
+                <h6>Completed Order Amount: <%= completedTot %></h6>
+                <h6>Processing Order Amount: <%= processTot %></h6>
+                <h6>Canceled Order Amount: <%= canceledTot %></h6>
             </div>
         </div>
     </div>
 </body>
 </html>
+
+<script>
+    function printDiv(){
+        document.getElementById("hide1").style.visibility = "hidden";
+        document.getElementById("hide2").style.visibility = "hidden";
+        var objs = document.getElementsByName("hide3");
+
+        for(var i = 0; i < objs.length; i++){
+            objs[i].style.visibility = "hidden";
+        }
+
+        window.print();
+    }
+</script>

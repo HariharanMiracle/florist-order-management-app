@@ -72,7 +72,7 @@
                                 <tr>
                                     <th scope="row">2</th>
                                     <td>Manual Order No</td>
-                                    <td><input type="text" class="form-control placeOrderFields" id="manualOrderNo" name="manualOrderNo" placeholder="Enter Manual Order No" required></td>
+                                    <td><input type="text" class="form-control placeOrderFields" id="manualOrderNo" name="manualOrderNo" placeholder="Enter Manual Order No" required onkeyup="isValidManualOrderNumber()"></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">3</th>
@@ -115,11 +115,6 @@
                                     <td>Nic No</td>
                                     <td><input type="text" class="form-control placeOrderFields" id="nicNo" name="nicNo" minlength="10" maxlength="12" placeholder="Enter Nic No" required></td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">8</th>
-                                    <td>Telephone No</td>
-                                    <td><input type="tel" class="form-control placeOrderFields" id="telephoneNo" maxlength="10" minlength="10" name="telephoneNo" placeholder="Enter Telephone No" required></td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -135,33 +130,33 @@
                             <tbody>
                                 <tr>
                                     <th scope="row">1</th>
+                                    <td>Past Date</td>
+                                    <td><input type="date" class="form-control" id="pastDate" name="pastDate" placeholder="Enter Past Date"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
                                     <td>Dead Person Name</td>
                                     <td><input type="text" class="form-control placeOrderFields" id="deadPersonName" name="deadPersonName" placeholder="Enter Dead Person Name" required></td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">2</th>
+                                    <th scope="row">3</th>
                                     <td>Funeral Date</td>
                                     <td><input type="date" class="form-control placeOrderFields" id="funeralDate" name="funeralDate" placeholder="Enter Funeral Date" required></td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">3</th>
+                                    <th scope="row">4</th>
                                     <td>Cemetery</td>
                                     <td><input type="text" class="form-control placeOrderFields" id="cemetry" name="cemetry" placeholder="Enter Cemetery" required></td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">4</th>
+                                    <th scope="row">5</th>
                                     <td>Cremation / Burrial</td>
                                     <td>
                                         <select id="cremationBurrial" name="cremationBurrial" class="form-control">
                                             <option value="CREMATION">CREMATION</option>
-                                            <option value="BURRIAL">BURRIAL</option>
+                                            <option value="BURRIAL">BURIAL</option>
                                         </select>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">5</th>
-                                    <td>Bill To</td>
-                                    <td><input type="text" class="form-control placeOrderFields" id="billTo" name="billTo" placeholder="Enter Bill To" required></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">6</th>
@@ -175,13 +170,8 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">7</th>
-                                    <td>Advance</td>
-                                    <td><input type="number" class="form-control placeOrderFields" id="advance" name="advance" placeholder="Enter payment advance" required></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">8</th>
-                                    <td>Balance</td>
-                                    <td><input type="number" class="form-control placeOrderFields" id="balance" name="balance" placeholder="Enter payment balance" required></td>
+                                    <td>Telephone No</td>
+                                    <td><input type="tel" class="form-control placeOrderFields" id="telephoneNo" maxlength="10" minlength="10" name="telephoneNo" placeholder="Enter Telephone No" required></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -245,11 +235,10 @@
         let funeralDate = $('#funeralDate').val();
         let cemetry = $('#cemetry').val();
         let cremationBurrial = $('#cremationBurrial').val();
-        let billTo = $('#billTo').val();
         let payMode = $('#payMode').val();
         let advance = $('#advance').val();
-        let balance = $('#balance').val();
         let packageId = $('#packageId').val();
+        let pastDate = $('#pastDate').val();
 
         let DomElmItemId = document.querySelectorAll('.ItemId');
         let DomElmItemActAmount = document.querySelectorAll('.ItemActValue');
@@ -262,12 +251,12 @@
             Item.push([DomElmItemId[i].value,AdjValue])
         }
 
-        let Entity = new Order(manualOrderNo,title,name,address,religion,nicNo,telephoneNo,deadPersonName,funeralDate,cemetry,cremationBurrial,billTo,payMode,advance,balance,packageId,Item);
+        let Entity = new Order(manualOrderNo,title,name,address,religion,nicNo,telephoneNo,deadPersonName,funeralDate,cemetry,cremationBurrial,payMode,advance,packageId,Item,pastDate);
 
         (IsFieldsEmpty(".placeOrderFields"))?PlaceOrder(Entity):alert("Mandatory Fields cannot Be Empty");
     }
 
-    function Order(manualOrderNo,title,name,address,religion,nicNo,telephoneNo,deadPersonName,funeralDate,cemetry,cremationBurrial,billTo,payMode,advance,balance,packageId,Item)
+    function Order(manualOrderNo,title,name,address,religion,nicNo,telephoneNo,deadPersonName,funeralDate,cemetry,cremationBurrial,payMode,advance,packageId,Item,pastDate)
     {
         this.manualOrderNo = manualOrderNo;
         this.title = title;
@@ -280,12 +269,11 @@
         this.funeralDate = funeralDate;
         this.cemetry = cemetry;
         this.cremationBurrial = cremationBurrial;
-        this.billTo = billTo;
         this.payMode = payMode;
         this.advance = advance;
-        this.balance = balance;
         this.packageId = packageId;
         this.Item = Item;
+        this.pastDate = pastDate;
     }
 
     function PlaceOrder(Entity)
@@ -333,5 +321,49 @@
         }
 
         document.getElementById("totalPrice").innerHTML = tot;
+
+        changeBalance();
+    }
+
+    function changeBalance(){
+		var advance = parseFloat(document.getElementById("advance").value);
+		var totalPrice = parseFloat(document.getElementById("totalPrice").innerHTML);
+        if(advance == null || advance === undefined || Number.isNaN(advance)){
+            document.getElementById("balance_display").innerHTML = totalPrice;
+        }
+        else{
+            var bal = totalPrice - advance;
+            if(bal < 0){
+                alert("Advance cannot be greater than balance");
+                document.getElementById("balance_display").innerHTML = totalPrice;
+                document.getElementById("advance").value = ""
+            }
+            else{
+                document.getElementById("balance_display").innerHTML = bal;
+            }
+        }
+    }
+
+    function isValidManualOrderNumber() {
+        console.log("Hi")
+        var orderId = document.getElementById("manualOrderNo").value;
+
+        var urlStr = document.getElementById("url1").value + "/order/isValidManualOrderNumber/" + orderId;
+
+
+        $.ajax({
+            type: "GET",
+            url: urlStr,
+            success: isValidManualOrderNumberSucc
+        });
+    }
+
+    function isValidManualOrderNumberSucc(rsp){
+
+        if(rsp == "Manual order number is not valid" || rsp == "Something went wrong"){
+            alert(rsp);
+            document.getElementById("manualOrderNo").value = "";
+        }
+
     }
 </script>

@@ -90,7 +90,16 @@
                                         <th scope="row"><%= i %></th>
                                         <td><%= order.getOrderNo() %></td>
                                         <td><%= order.getManualOrderNo() %></td>
-                                        <td><%= order.getOrderDate() %></td>
+
+                                        <%
+                                            if(order.getPastDate() == null){
+                                                %><td><%= order.getOrderDate() %></td><%
+                                            }
+                                            else{
+                                                %><td><%= order.getPastDate() %></td><%
+                                            }
+                                        %>
+
                                         <td><%= order.getName() %></td>
                                         <td><%= order.getNicNo() %></td>
                                         <td><%= order.getTelephoneNo() %></td>
@@ -115,7 +124,7 @@
                                         %>
                                         <td><%= order.getAmount() %></td>
                                         <td>
-                                            <a href=<%= baseUrl + "/order/detail/" + order.getId() %> type="button" class="btn btn-warning">View Order Details</a>
+                                            <a href=<%= baseUrl + "/order/detail/" + order.getId() %> type="button" class="btn btn-warning">View Order</a>
                                             <a href=<%= baseUrl + "/order/print/order/" + order.getId() %> type="button" class="btn btn-info">Print Order</a>
                                             <a href=<%= baseUrl + "/order/print/invoice/" + order.getId() %> type="button" class="btn btn-info">Print Invoice</a>
                                         </td>

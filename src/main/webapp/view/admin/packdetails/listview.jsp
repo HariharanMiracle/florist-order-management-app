@@ -94,7 +94,7 @@
                                         <td><%= pkg.getName() %></td>
                                         <td><%= pkg.getAmount() %></td>
                                         <td>
-                                            <a href=<%= baseUrl + "/pacNitem/list/" + pkg.getId() %> type="button" class="btn btn-warning">View & Add Items</a>
+                                            <a href=<%= baseUrl + "/pacNitem/list/" + pkg.getId() %> type="button" class="btn btn-warning">View Add Or Remove Items</a>
                                         </td>
                                     </tr>
                                     <%

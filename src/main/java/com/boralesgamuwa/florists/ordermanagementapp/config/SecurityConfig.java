@@ -30,9 +30,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        // http.authorizeRequests()
+        http://localhost:9090/florist/app/hollow-logo.png
+        http.csrf().disable().authorizeRequests()
+//                .antMatchers("/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/hollow-logo.png").permitAll()
+                .antMatchers("/landscape-logo").permitAll()
+                .antMatchers("/solid-logo").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/assistant/**").hasAnyRole("ASSISTANT", "ADMIN")
                 .antMatchers("/admin").hasRole("ADMIN")

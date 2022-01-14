@@ -24,6 +24,11 @@ public interface OrderService {
     List<Order> filterOrders(String orderNo, String manualOrderNo, String name, String nicNo);
     List<Orderbill> listAllOrderbillByOrderId(int id);
     Order findLastOrder();
+    Order findLastOrderOrderByManualOrderNo();
     List<Order> listOrdersBetweenDate(String startDate, String endDate);
     boolean revertOrder(int orderId);
+    List<Order> listAllOrderAndOrderByManualOrderNo();
+    boolean updateOrder(Order order);
+    boolean updateOrderAndChangePackage(Order order, List<Orderitem> orderitemList, double advance, double balance);
+    List<Order> listAllOrderAndOrderByManualOrderNoDesc();
 }
